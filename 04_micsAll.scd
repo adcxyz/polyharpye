@@ -14,11 +14,11 @@ q.numSpks = q.numSpks ? q.numOuts;
 
 // number of inputs depends on sound device:
 case { q.sndDevice == \MIO } {
-	q.micChans = (0..5);
-	q.numMics = 7;
+	q.numMics = q.numMics ? 8;
+	q.micChans = (0..q.numMics - 1);
 } { q.sndDevice == \1248 } {
-	q.micChans = (0..7);
-	q.numMics = q.micChans
+	q.numMics = q.numMics ? 8;
+	q.micChans = (0..q.numMics - 1);
 } {
 	// default sound device is stereo mic in,
 	// stereo speakers out
