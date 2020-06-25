@@ -78,22 +78,22 @@ if (MasterFX.all.isEmpty) {
 	(
 		q.mfx.preMap = (
 			'baseset': (
-				chainElements: ['00_in', '0_DBComp', ['3AdCVerb', 0.1], \ampFin],
+				chainElements: ['00_in', '0_DBComp', ['3AdCVerb', 0.3], \ampFin],
 				settings: [\postAmp, 1, \ampLimit, 0.8, \noisefloor, 0.0001],
 				// randomize: [\noisefloor ]
 			),
 			'theology': (
-				chainElements: [['3AdCVerb', 0.05], ['1comby', 0.5]],
+				chainElements: [['3AdCVerb', 0.15], ['1comby', 0.5]],
 				randomize: [\mod, \predelay, \revTime, \combScale, \freqscale, \rtscale ],
 				// settings: [\postAmp, 1, \ampLimit, 0.8]
 			),
 			'magic': (
-				chainElements: [['3AdCVerb', 0.02], ['7Delay', 0.2], ['6roto', 0.9]],
+				chainElements: [['3AdCVerb', 0.1], ['7Delay', 0.2], ['6roto', 0.9]],
 				randomize: [\mod, \delayTime1, \speed, \combScale],
 				settings: [\feedback, 4, \ampLimit, 0.8]
 			),
 			'rationalism': 	(
-				chainElements: [['7Delay', 0.25], ['5LPF', 0.6], ['3AdCVerb', 0.05]],
+				chainElements: [['7Delay', 0.25], ['5LPF', 0.6], ['3AdCVerb', 0.15]],
 				randomize: [\modL, \rqL],
 				settings: [\mod, 0.11, \feedback, 25, \delayTime1, 0.08, \delayTime2, 0.11]
 			),
@@ -102,30 +102,30 @@ if (MasterFX.all.isEmpty) {
 				randomize: [\predelay, \apDecay, \combdecay, \ringfr, \combScale]
 			),
 			'psychoanalysis': (
-				chainElements: [['1comby', 0.5], ['5HPF', 0.6], ['7Delay', 0.1], ['3AdCVerb', 0.03]],
+				chainElements: [['1comby', 0.5], ['5HPF', 0.6], ['7Delay', 0.1], ['3AdCVerb', 0.1]],
 				settings: [\bpm, 33.33, \freqH, 333, \modH, 0.5, \rqH, 0.5,
 					\delaytime2, 0.87, \feedback, 3, \mod, 0.8],
 				randomize: [\combScale]
 			),
 			'cybernetics': (
-				chainElements: [['1holz', 0.35], ['3thrasher', 0.2], ['7Delay', 0.3], ['3AdCVerb', 0.02]],
+				chainElements: [['1holz', 0.35], ['3thrasher', 0.2], ['7Delay', 0.3], ['3AdCVerb', 0.1]],
 				randomize: [\downsmod, \mod, \reson],
 				settings: [\bit, 12, \downsample, 10000, \delayTime1, 1,
 					\delaytime2, 0.08, \feedback, 7],
 				randomize: [\combScale]
 			),
 			'neoliberalism': ( // comb filtering of AdCVerb causes trouble...
-				chainElements: [['1ring', 0.3], ['3AdCVerb', 0.03], ['7Delay', 0.03]],
+				chainElements: [['1ring', 0.3], ['3AdCVerb', 0.12], ['7Delay', 0.03]],
 				randomize: [\predelay, \revTime, \ringfr, \delayTime1, \delayTime2],
 				settings: [\combScale, 0.09]
 			),
 			'neopaganism': (
-				chainElements: [['1holz', 0.2], ['1ixiDist', 0.15], ['3AdCVerb', 0.03]],
+				chainElements: [['1holz', 0.2], ['1ixiDist', 0.15], ['3AdCVerb', 0.15]],
 				randomize: [\predelay, \revTime, \combScale, \ringfr, \delayTime1, \delayTime2],
 				settings: [\pregain, 4, \dFreq, 1300,\loSlop, 0.4 ]
 			),
 			'transhumanism': (
-				chainElements: [['1ring', 0.3], ['4ixiVerb', 0.25], ['7Delay', 0.03]],
+				chainElements: [['1ring', 0.3], ['4ixiVerb', 0.25], ['7Delay', 0.1]],
 				randomize: [\predelay, \apDecay, \combdecay, \ringfr, \delayTime1, \delayTime2],
 				settings: [\ixivAmp, 0.1]
 			)
