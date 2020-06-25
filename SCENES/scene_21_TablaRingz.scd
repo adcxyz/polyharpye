@@ -1,7 +1,7 @@
 (
 name: \tablaRingz,
-scaleSeed: 23,
-scaleName: \hungarianMinor,
+// scaleSeed: 23,
+// scaleName: \hungarianMinor,
 onNdefs:  [
 	(ndef: Ndef(\Ph_tabloid),
 		vol: 0.1,
