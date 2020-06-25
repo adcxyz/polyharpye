@@ -1,7 +1,7 @@
 (
 name: \tablaSitar,
-scaleSeed: 234,
-scaleName: \hungarianMinor,
+// scaleSeed: 234,
+// scaleName: \hungarianMinor,
 onNdefs:  [
 	(ndef: Ndef(\Ph_tabloid),
 		vol: 0.3,
