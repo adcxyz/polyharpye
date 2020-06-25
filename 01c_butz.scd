@@ -7,6 +7,8 @@ Butz.style.midfont = Font("Futura", 20);
 Butz.style.bigfont = Font("Futura", 25);
 
 Butz.makeWin;
+Butz.w.layout.margins_(4);
+Butz.w.layout.spacing_(0@0);
 
 // put this func on all Windows,
 /// so you can navigate everywhere by shortcuts
@@ -14,9 +16,7 @@ MFdef(\masterKeyDown).add(\mtp, { |view, key|
 	MTP.keydownDict[key].value(view, key);
 });
 
-Window.allWindows.do { |w|
-	w.view.keyDownAction = MFdef(\masterKeyDown);
-};
+View.globalKeyDownAction = MFdef(\masterKeyDown);
 
 (
 g = g ? (); // gui dict
@@ -66,6 +66,7 @@ g.tuneNameView(PdefAllGui(4));
 
 [
 	\minimax,
+	\StartupFile,
 	\SCENES,
 	'spatio',
 	\globalXY,
@@ -84,6 +85,7 @@ g.tuneNameView(PdefAllGui(4));
 ].do (Butz.add(_));
 
 Butz.show;
+Butz.add(\StartupFile, { StartupFile.choose });
 Butz.add(\minimax, {
 	if (Butz.w.bounds.height > 100) {
 		Butz.showButs(1, 0.01)
