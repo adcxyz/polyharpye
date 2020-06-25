@@ -128,12 +128,13 @@ q.chords.golden.chord2.round(0.001).postln;
 // 	{ ((Scale.major.degrees +.t [-12, -12, 0, 0, 0, 12, 12, 24, 24]).flat ++ 36).scramble }.valueSeed(seed);
 // };
 // can now pass in scale name - distro is still by randSeed
-q.makeScale = { |q, seed, scaleName = \major, lowest = -2, highest = 2|
+
+q.makeScale = { |q, seed, scaleName = \major, lowest = -3, highest = 2|
 	var numNotes = q.numResons;
 	///////  good balanced set of octaves, for sitar, tabla etc
 	// var octaves = [-2, -1, 0, 0, 0, 1, 1, 2, 2].clip(lowest, highest);
 	///////  toy piano range for opening night and TS default
-	var octaves = [0, 0, 0, 0, 0, 1, 1, 1, 2].clip(lowest, highest);
+	var octaves = [-3, -2, -1, -1, 0, 0, 1, 2].clip(lowest, highest);
 	var octShifts = octaves * 12;
 	// [-12, -12, 0, 0, 0, 12, 12, 24, 24]
 	{
@@ -162,18 +163,11 @@ q.scale.allIntervals = q.makeScale(q.scale.seed, q.scale.name);
 q.scale.allIntervals = q.scale.allIntervals.collect { |intv|
 	if (intv < 0) { intv.wrap(0, 11) } { intv };
 };
-
+Ndef(\scale).clear;
 Ndef(\scale).fadeTime = 10;
 Ndef(\scale).addSpec(\base, [36, 84, \lin, 0.5]);
 Ndef(\scale).addSpec(\lag, [0, 10, \amp ]);
 
-// THE BOMB for openingn night and TS default
-// q.scale.allIntervals[26] = 4;
-//  q.scale.allIntervals[12] = -31 ; - 12;
-q.scale.allIntervals[36] = -36 ; - 12;
-q.scale.allIntervals[38] = -29; - 12;
-// fix of too high note
-q.scale.allIntervals[39] = 7; - 12;
 
 Ndef(\scale, { |base = 60, lag = 10|
 	var scaleKr = \scale.kr(q.scale.allIntervals);
