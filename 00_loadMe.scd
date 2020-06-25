@@ -10,10 +10,9 @@ q.projdir = thisProcess.nowExecutingPath.dirname;
 "***** GLOBAL SETUP things first: ******".postln;
 
 // could already be set in startup file:
-q.numMics = q.numMics ? 1;
+q.numMics = q.numMics ? 6;
 q.numSpks = q.numSpks ? 2;
 q.randSeed = q.randSeed ? 666;
-
 
 q.numResons = 46; // same as numNotes, numPseudoMics
 q.lastReson = q.numResons - 1;
@@ -74,6 +73,8 @@ Task({
 	};
 
 	"*** q.numMics: %\n".postf(q.numMics);
+
+	q.load("allFX.scd");
 
 	q.load("01a_synthdefs.scd");
 	q.load("01b_positions.scd");
@@ -177,6 +178,14 @@ s.doWhenBooted {
 	s.sync; 0.1.wait;
 
 	Ndef(\Pz_grid).play(vol: 0.25, fadeTime: 3);
+
+	// /// tweax
+	// MasterFX(s).add('9stereofy', 1);
+	// q.load("scaleButz.scd");
+	//
+	// s.volume = -2;
+	// s.scope(2);
+
 
 	"\n*** SETUP DONE in % seconds.\n\n\n".postf((Main.elapsedTime - t0).round(0.001));
 };
