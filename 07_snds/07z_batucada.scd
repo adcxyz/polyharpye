@@ -10,7 +10,7 @@ Ndef(\Ph_batucada).addSpec(\guideAmp, [0, 0.2, \amp]);
 (
 MFdef(\ndef_setNet).value(Ndef(\Ph_batucada), 10);
 
-Ndef(\Ph_batucada, { |minamp = 0.0, guideAmp = 0.05|
+Ndef(\Ph_batucada, { |minamp = 0.0, guideAmp = 0.0|
 	var thisNdef = Ndef(\Ph_batucada);
 	var indices = thisNdef.getHalo(\myNet);
 	var numRopes = indices.size;
@@ -49,10 +49,10 @@ Ndef(\Ph_batucada, { |minamp = 0.0, guideAmp = 0.05|
 
 		///// bassdrums 3 : 4
 		var rhy3 = Demand.ar(tic12, 0, Dseq([1, 0, 0, 0.8, 0, 0.5], inf));
-		var snd3 = Ringz.ar(tic12 * rhy3 * amps[2], 66.6  * subdivRatio * (1 + Decay.ar(rhy3 * tic12, 0.2)), 1);
+		var snd3 = Ringz.ar(tic12 * rhy3 * amps[2], 66.6  * subdivRatio * (1 + Decay.ar(rhy3 * tic12, 0.2)), 1) * 2;
 
 		var rhy4 = Demand.ar(tic12, 0, Dseq([1, 0, 0, 0], inf));
-		var snd4 = Ringz.ar(tic12 * rhy4 * amps[3], 44.4  * subdivRatio * (1 + Decay.ar(rhy4 * tic12, 0.2)), 1);
+		var snd4 = Ringz.ar(tic12 * rhy4 * amps[3], 44.4  * subdivRatio * (1 + Decay.ar(rhy4 * tic12, 0.2)), 1)  * 2;
 
 		///// tambourin1
 		var rhy5 = Demand.ar(tic12, 0, Dseq([0, 0.6, 1, 0.8], inf));
