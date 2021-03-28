@@ -34,6 +34,9 @@ Butz.add(\scaleHung42, {
 
 MKtl.find(\midi);
 MKtl(\nk2, "*trol2");
+/*
+MKtl(\nk2).gui;
+*/
 
 q.scenes.all[0].name;
 
@@ -59,11 +62,7 @@ MKtl(\nk2).elAt(\tr).flat.keep(4).do { |el, scaleIndex|
 };
 
 MKtl(\nk2).elAt(\kn, 7).action = { |el|
-	MasterFX(s).set(\mastaVol, (el.value * 2).squared)
-};
-
-MKtl(\nk2).elAt(\kn, 7).action = { |el|
-	MasterFX(s).set(\mastaVol, (el.value * 2).squared)
+	MainFX(s).set(\mainVol, (el.value * 2).squared)
 };
 
 
