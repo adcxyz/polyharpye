@@ -8,7 +8,7 @@ Ndef(\Ph_batucada).addSpec(\minamp, [0, 0.2, \amp]);
 Ndef(\Ph_batucada).addSpec(\guideAmp, [0, 0.2, \amp]);
 
 (
-MFdef(\ndef_setNet).value(Ndef(\Ph_batucada), 10);
+MFdef(\ndef_setNet).value(Ndef(\Ph_batucada), 11);
 
 Ndef(\Ph_batucada, { |minamp = 0.0, guideAmp = 0.0|
 	var thisNdef = Ndef(\Ph_batucada);
@@ -30,8 +30,8 @@ Ndef(\Ph_batucada, { |minamp = 0.0, guideAmp = 0.0|
 
 	var layers = indices6.clump(6).collect { |indexGroup, i|
 
-		var post = [indexGroup, i].postln;
-		var subdiv = timeLayers[i].postln;
+		var post = [indexGroup, i];
+		var subdiv = timeLayers[i];
 		var subdivRatio = subdiv / 12;
 		var subdivIndex = subdiv - 1;
 		var tic12 = Ndef(\time16).ar(1, subdivIndex);
