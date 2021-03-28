@@ -1,6 +1,6 @@
-Butz.add(\MasterFX, { WinBounds.showOrMake(\MasterFX) });
+Butz.add(\MainFX, { WinBounds.showOrMake(\MainFX) });
 
-WinBounds.addMake(\MasterFX, {
+WinBounds.addMake(\MainFX, {
 
 	q.mfx.font = Font("Optima", 18);
 
@@ -8,11 +8,11 @@ WinBounds.addMake(\MasterFX, {
 	q.mfx.srcKeys = q.mFX.slotNames;
 
 	try { q.mfx.win.close };
-	q.mfx.win = Window('MasterFX', Rect(0,0, 520, 800)).front;
+	q.mfx.win = Window('MainFX', Rect(0,0, 520, 800)).front;
 	q.mfx.win.addFlowLayout;
 
-	q.mfx.prepop = EZPopUpMenu(q.mfx.win, Rect(0,0, 320, 30), \mastaPresetz, q.mfx.preNames, { |ezp|
-		MFdef(\mastaPre).(ezp.item);
+	q.mfx.prepop = EZPopUpMenu(q.mfx.win, Rect(0,0, 320, 30), \mainPresetz, q.mfx.preNames, { |ezp|
+		MFdef(\mainPre).(ezp.item);
 	}, labelWidth: 120);
 	q.mfx.prepop.font_(q.mfx.font);
 
@@ -20,7 +20,7 @@ WinBounds.addMake(\MasterFX, {
 		Button(q.mfx.win, Rect(0,0,50,30))
 		.states_([[label]]).font_(q.mfx.font)
 		.action_({
-			MFdef(\mastaPreStep).([nil, -1, 1]@i)
+			MFdef(\mainPreStep).([nil, -1, 1]@i)
 		});
 	};
 

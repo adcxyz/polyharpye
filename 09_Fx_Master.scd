@@ -2,7 +2,7 @@
 
 // add all global filter functions to use - these are then available by name.
 
-if (MasterFX.all.isEmpty) {
+if (MainFX.all.isEmpty) {
 
 	q=q?();
 	q.mfx = q.mfx ? ();
@@ -19,7 +19,7 @@ if (MasterFX.all.isEmpty) {
 
 	(
 		q.mFX.clear;
-		q.mFX = MasterFX.new(server: s,
+		q.mFX = MainFX.new(server: s,
 			numChannels: q.numChans,
 			slotNames: // q.prefs.active.mfxSlotNames ?
 			ProxyChain.allSources.keys(Array).sort,
@@ -133,13 +133,13 @@ if (MasterFX.all.isEmpty) {
 	);
 
 	(
-		MFdef(\mastaPre).add(\voiceFXSwitch, { |domainName|
+		MFdef(\mainPre).add(\voiceFXSwitch, { |domainName|
 			var chain = q.mfx.chain;
 			var dict = q.mfx.preMap[domainName];
 			var randSettings;
 
 			if (dict.isNil) {
-				"*** MastaPre: no domain %, not switching.".postf(domainName);
+				"*** mainPre: no domain %, not switching.".postf(domainName);
 			} {
 				q.mfx.prevDomain = q.mfx.currDomain;
 				q.mfx.currDomain =  domainName;
@@ -171,7 +171,7 @@ if (MasterFX.all.isEmpty) {
 					};
 					// rand
 					if(dict.randomize.notNil){
-						// "MasterFX rand: ".postln;
+						// "MainFX rand: ".postln;
 						randSettings = [dict.randomize, {rrand(0.2, 0.8)}.dup(dict.randomize.size)].flop.flat;
 						chain.proxy.setUni(*randSettings);
 					};
@@ -184,18 +184,18 @@ if (MasterFX.all.isEmpty) {
 		});
 
 
-		MFdef(\mastaVol).add(\masta, { |univol = 0.5|
-			q.mFX.pxChain.proxy.setUni(\mastaVol, univol);
+		MFdef(\mainVol).add(\mainVol, { |univol = 0.5|
+			q.mFX.pxChain.proxy.setUni(\mainVol, univol);
 		});
 
-		MFdef(\mastaPre).value(\baseset);
+		MFdef(\mainPre).value(\baseset);
 
-		MFdef(\mastaPreStep).add(\inc, { |inc|
+		MFdef(\mainPreStep).add(\inc, { |inc|
 			var nextIndex, nextName;
 			inc = inc ?? { rrand(1, q.mfx.preNames.lastIndex) };
 			nextIndex = q.mfx.domainIndex + inc % q.mfx.preNames.size;
 			nextName = q.mfx.preNames[nextIndex];
-			MFdef(\mastaPre).(nextName);
+			MFdef(\mainPre).(nextName);
 		});
 	);
 };
