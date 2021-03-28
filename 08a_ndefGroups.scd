@@ -37,20 +37,23 @@ q.ndef[\Outs] = [
 
 ////// ALL THE SOUND THAT CAN PLAY:
 q.ndef[\Sounds] = [
+	/// the faves
 	Ndef('Ph_sitar1'),
 	Ndef('Ph_tabloid'),
 	Ndef('Ph_triangul'),
-	Ndef('Ph_ropesRingz'),
-	Ndef('Ph_glassy'),
 	Ndef('Ph_roRingPaz'),
-	Ndef('Ph_ropesClicks'),
+	Ndef('Ph_glassy'),
 	Ndef('Ph_ropeWah'),
-	Ndef('Ph_ropesPure'),
-	Ndef('Ph_sawAM'),
 	Ndef('Ph_rhythmicon'),
 	Ndef('Ph_batucada'),
-	// Ndef('Ph_verb'),
 
+	// keep them for tryouts
+	Ndef('Ph_ropesPure'),
+	Ndef('Ph_ropesRingz'),
+	Ndef('Ph_ropesClicks'),
+	Ndef('Ph_sawAM'),
+
+	// Ndef('Ph_verb'),
 	// Ndef('Ph_perky'),
 	// Ndef('Ph_ropesSmpls'),
 	// Ndef('Ph_spiral'),
