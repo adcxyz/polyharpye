@@ -70,6 +70,8 @@ Task({
 
 	if (s.serverRunning.not) {
 		q.load("01_serverSetup.scd");
+		// Server.scsynth;
+		"*** server uses %.\n".postf(Server.program.basename);
 	};
 
 	"*** q.numMics: %\n".postf(q.numMics);
@@ -97,9 +99,9 @@ Task({
 
 	if (s.serverRunning.not) {
 		"booting server ...\n\n".postln;
-		s.quit;
-		unixCmd("killall scsynth supernova".postcs);
-		0.5.wait;
+		// s.quit;
+		// unixCmd("killall scsynth supernova".postcs);
+		// 1.wait;
 		s.boot;
 		fork ({
 			while { s.serverRunning.not } { ".".postln; 1.wait }
@@ -143,8 +145,11 @@ s.doWhenBooted {
 
 	// all sounds:
 	q.load("07_snds/07*.scd");
+	"... snds loaded. /n/n".postln;
 
-	s.sync; 1.0.wait;
+	s.sync; 0.2.wait;
+
+
 
 	q.load("08a_ndefGroups.scd");
 	s.sync; 0.1.wait;
@@ -153,9 +158,7 @@ s.doWhenBooted {
 
 	s.sync; 0.1.wait;
 
-	if (MasterFX.all.isEmpty) {
-		q.load("09*.scd");
-	};
+	q.load("09*.scd");
 
 	s.sync; 0.1.wait;
 
@@ -169,6 +172,9 @@ s.doWhenBooted {
 	s.sync; 0.1.wait;
 
 	0.25.wait;
+
+	q.load("15_scaleButz.scd");
+	0.05.wait;
 
 	q.load("16_cleanupLayout.scd");
 
