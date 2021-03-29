@@ -37,7 +37,7 @@ WinBounds.addMake('SCENES', {
 
 	v.nextLine;
 
-	q.scenes.buts = { Button(w, Rect(0, 0, 170, 40)).states_([["", nil, Color.black]]) } ! 20;
+	q.scenes.buts = { Button(w, Rect(0, 0, 170, 40)).states_([["", nil, Color.black]]) } ! 24;
 
 	q.scenes.load2Buts = {
 		q.scenes.buts.do { |but, i|
@@ -54,8 +54,6 @@ WinBounds.addMake('SCENES', {
 					bt.value_(1);
 					t.string_( "NOW: " ++ dict.name );
 					MFdef(\sceneSwitch).value(dict);
-					MFdef(\sceneSwitch).value(dict);
-					MFdef(\selectScene).value(dict.name);
 				})
 			}
 		};
