@@ -11,6 +11,7 @@ MFdef(\ndef_setNet).value(Ndef(\Ph_tabloid), 1);
 Ndef(\Ph_tabloid).addSpec(\amp2pitch, [-0.1, 0.1]);
 Ndef(\Ph_tabloid).addSpec(\whiten, [0, 1]);
 Ndef(\Ph_tabloid).addSpec(\decayScale, [0.2, 5, \exp]);
+Ndef(\Ph_tabloid).addSpec(\transpose, [-24, 24, \lin, 0.01]);
 
 Ndef(\Ph_tabloid, {|amp = 1.0, decayScale = 1.2, transpose = 0, hpfreq = 200, whiten = 0.75, amp2pitch = 0.05|
 	var thisNdef = Ndef(\Ph_tabloid);

@@ -7,7 +7,7 @@ Ndef(\Ph_ropeWah).parentGroup_(q.grpList[2]);
 Ndef(\Ph_ropeWah).fadeTime = 2;
 
 Ndef(\Ph_ropeWah).addSpec(\attT, [0, 2, 5]);
-Ndef(\Ph_ropeWah).addSpec(\dcyT, \attT);
+Ndef(\Ph_ropeWah).addSpec(\dcyT, [0, 2, 5]);
 Ndef(\Ph_ropeWah).addSpec(\octSpan, [-6, 6, \lin, 0.1]);
 Ndef(\Ph_ropeWah).addSpec(\freqLo, \freq);
 Ndef(\Ph_ropeWah).addSpec(\freqHi, \freq);

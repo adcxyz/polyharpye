@@ -8,6 +8,8 @@ Ndef(\Ph_sawAM).fadeTime = 5;
 
 MFdef(\ndef_setNet).value(Ndef(\Ph_sawAM), 12);
 
+Ndef('Ph_sawAM').addSpec('transpose', [ -24, 24, \lin, 0.01]);
+
 Ndef(\Ph_sawAM, {|transpose = -12, amp = 1.0, rq = 0.4|
 	var thisNdef = Ndef(\Ph_sawAM);
 	var netNames = thisNdef.getHalo(\myNetNames);

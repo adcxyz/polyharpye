@@ -11,6 +11,7 @@ MFdef(\ndef_setNet).value(Ndef(\Ph_ropesPure), 8);
 Ndef(\Ph_ropesPure).getHalo;
 
 Ndef(\Ph_ropesPure).addSpec(\treble, [-12, 12]);
+Ndef('Ph_ropesPure').addSpec('tiltfreq', [ 100, 2000, \exp, 1]);
 
 Ndef(\Ph_ropesPure, {|hpfreq = 20, tiltfreq = 1000, treble = 12|
 	var thisNdef = Ndef(\Ph_ropesPure);

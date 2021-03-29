@@ -13,13 +13,14 @@ MFdef(\ndef_setNet).value(Ndef(\Ph_sitar1), 0);
 
 Ndef(\Ph_sitar1).addSpec(\decaycomp, [0, 1]);
 Ndef(\Ph_sitar1).addSpec(\decaytime, [1, 25, \exp]);
-Ndef(\Ph_sitar1).addSpec(\transpose, [-24, 24, 0.01]);
+Ndef(\Ph_sitar1).addSpec(\transpose, [-24, 24, \lin, 0.01]);
+Ndef('Ph_sitar1').addSpec('pmod', [ 0, 4, \amp]);
 
 
 ///// simple favorite
 Ndef(\Ph_sitar1, { |amp = 0.5, transpose = -12,
 	decaytime = 8, decaycomp = 0.5, rq = 0.34,
-	pmod = 0.5s|
+	pmod = 0.5|
 	var thisNdef = Ndef(\Ph_sitar1);
 	var netNames = thisNdef.getHalo(\myNetNames);
 	var indices = thisNdef.getHalo(\myNet);

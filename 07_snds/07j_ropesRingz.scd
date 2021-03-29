@@ -19,6 +19,8 @@ Ndef(\Ph_ropesRingz).addSpec(\white, [0, 4, \amp]);
 Ndef(\Ph_ropesRingz).addSpec(\amp2pitch, [-0.1, 0.1]);
 Ndef(\Ph_ropesRingz).addSpec(\decTime, [0.25, 16, \exp]);
 Ndef(\Ph_ropesRingz).addSpec(\whiten, [0, 4, \amp]);
+Ndef('Ph_ropesRingz').addSpec('transpose', [ -24 , 24, \lin, 0.01]);
+
 (
 Ndef(\Ph_ropesRingz, {|amp = 0.5, decTime = 3.5, transpose = 0, whiten = 1, amp2pitch = 0.03|
 	var thisNdef = Ndef(\Ph_ropesRingz);
