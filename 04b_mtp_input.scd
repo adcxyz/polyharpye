@@ -35,7 +35,7 @@ SynthDef(\noyzResons, { |out, amp = 0.0, panx, pany, gate = 1, freq = 261, reso 
 
 	Out.ar(out, snd2 * amps);
 
-}).add;
+}).load;
 
 /*    // tests for the synthdefs
 
