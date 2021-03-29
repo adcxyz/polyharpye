@@ -145,7 +145,7 @@ s.doWhenBooted {
 
 	// all sounds:
 	q.load("07_snds/07*.scd");
-	"... snds loaded. /n/n".postln;
+	"... snds loaded. \n\n".postln;
 
 	s.sync; 0.2.wait;
 
@@ -179,7 +179,7 @@ s.doWhenBooted {
 	q.load("16_cleanupLayout.scd");
 
 	// // sitar, tabla, tringulz
-	q.scenes.buts[0].doAction;
+	// q.scenes.buts[0].doAction;
 
 	s.sync; 0.1.wait;
 
@@ -187,10 +187,8 @@ s.doWhenBooted {
 
 	// /// tweax
 	// MasterFX(s).add('9stereofy', 1);
-	// q.load("scaleButz.scd");
-	//
 	// s.volume = -2;
-	// s.scope(2);
+	// s.scope(6);
 
 
 	"\n*** SETUP DONE in % seconds.\n\n\n".postf((Main.elapsedTime - t0).round(0.001));
