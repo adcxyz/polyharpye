@@ -1,6 +1,6 @@
 
 
-"*** Startup file for Polyharpye.".postln;
+"*** Polyharpye loadMe file.\n".postln;
 
 // global storage
 q = q ? ();
@@ -59,6 +59,7 @@ q.load = { |q, filename, here, wait = 0.05, dirsup = 0, preText = "", postText =
 		}, AppClock)
 	};
 };
+
 // measure startup load time
 q.startedTime = Main.elapsedTime;
 
@@ -114,7 +115,8 @@ Task({
 s.doWhenBooted {
 	var t0 = Main.elapsedTime;
 
-	"... server booted after % seconds.\nStarting Setup:\n\n".postf(t0 - q.startedTime);
+	"\n... server booted after % seconds.\n"
+	"Starting Setup:\n\n".postf(t0 - q.startedTime);
 
 	// wait for server interface to finish
 	0.1.wait;
