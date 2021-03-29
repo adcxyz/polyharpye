@@ -23,6 +23,7 @@ Server.program;
 /////////// Make sure we have Pa_micsAll and Pz_grid
 // on adajacent buses, so Spatio gets them together!
 Ndef(\Pa_micsAll).ar(q.numResons);
+Ndef(\Pz_grid).ar(q.numResons);
 Ndef(\Pz_mainCopy).ar(q.numSpks);
 Ndef(\Pz_mainCopy, { InFeedback.ar(0, q.numSpks) });
 

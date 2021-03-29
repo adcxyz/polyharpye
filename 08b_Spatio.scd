@@ -291,10 +291,6 @@ WinBounds.addMake(\spatio, {
 	// q.spatUV.refresh;
 	w;
 });
-
-
-
-// MFdef('drawSpat').value;
 );
 
 
