@@ -5,7 +5,7 @@ q.scenes.fadeTime = 3;
 
 q.scenes.load = {
 	q.scenes.all = (q.projdir +/+ "SCENES/scene*.scd").pathMatch.collect(_.load);
-	"q.scenes.all has % scenes now.\n".postf(q.scenes.all.size);
+	"q.scenes.all has % scenes loaded now.\n".postf(q.scenes.all.size);
 };
 q.scenes.load;
 
@@ -13,6 +13,26 @@ MFdef(\sceneSwitch).add(\perms, { |newdict|
 	if (newdict.notNil) {
 		"\n\n*** SCENE switching to : %  ***\n\n".postf(newdict.name ? newdict);
 		q.wakePerms;
+	};
+});
+
+MFdef(\sceneSwitch).add(\scale, { |newdict|
+	var fadetime = newdict.fadeTime ? q.scenes.fadeTime;
+
+	if (newdict[\scaleName].notNil) {
+
+		forkIfNeeded {
+			"new scale: ".postln;
+			~scaleSeed = newdict[\scaleSeed] ? ~scaleSeed;
+			~scaleName = newdict[\scaleName];
+			Ndef(\scale).nodeMap.set(\scale, nil);
+			Ndef(\scale).fadeTime = fadetime;
+			Ndef(\scale).rebuild;
+			q.getScale;
+			s.sync;
+		};
+	} {
+		// "sceneSwitch: no scaleName given.".postln;
 	};
 });
 
@@ -32,27 +52,13 @@ MFdef(\sceneSwitch).add(\name, { |newdict|
 	}
 });
 
-MFdef(\sceneSwitch).add(\scale, { |newdict|
-	var fadetime = newdict.fadeTime ? q.scenes.fadeTime;
-
-	if (newdict[\scaleName].notNil) {
-		forkIfNeeded {
-			"newscale: ".postln;
-			~scaleSeed = newdict[\scaleSeed] ? ~scaleSeed;
-			~scaleName = newdict[\scaleName];
-			Ndef(\scale).nodeMap.set(\scale, nil);
-			Ndef(\scale).fadeTime = fadetime;
-			Ndef(\scale).rebuild;
-			q.getScale;
-		};
-	} {
-		"sceneSwitch: no scaleName given...".postln;
-	};
-});
 
 /*
 MFdef(\sceneSwitch).value( (scaleName: \minor, scaleSeed: 412, name: \scaleTester));
 MFdef(\sceneSwitch).value( (scaleName: \diminished, scaleSeed: 4711));
+
+MFdef(\sceneSwitch).value( q.scenes.all[0]);
+MFdef(\sceneSwitch).value( q.scenes.all[9]);
 
 MFdef(\sceneSwitch).value( (scaleName: \major, scaleSeed: 4711, fadeTime: 5));
 MFdef(\sceneSwitch).value( (scaleName: \minor, scaleSeed: 4711, fadeTime: 1));
