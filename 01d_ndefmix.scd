@@ -8,7 +8,7 @@ WinBounds.addMake(\ndefmix, {
 
 	q.mixwin = Window(\ndefmix, Rect(103.0, 146.0, 680.0, 440)).front;
 	q.mixwin.addFlowLayout;
-	q.mixbuts = [\All, \Mics, \Sounds, \Outs, \Perms ].collect { |name, i|
+	q.mixbuts = [\Sounds, \top8, \Mics, \All, \Outs, \Perms ].collect { |name, i|
 		Button(q.mixwin, 100@24).font_(Butz.style.midfont)
 		.states_([[ name, Color.white, Color.grey ], [ name, Color.white, Color.red(0.8) ]])
 		.action_(MFdef('mixBut'));

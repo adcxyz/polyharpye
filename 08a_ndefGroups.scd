@@ -63,6 +63,9 @@ q.ndef[\Sounds] = [
 	// Ndef('testDust'),
 ];
 
+// the top8 we want on 8chan controllers:
+q.ndef.top8 = q.ndef[\Sounds].keep(8);
+
 // necessary running but non-playing silent ndefs:
 q.ndef[\Perms] = [
 	Ndef('Pa_micIns'),
