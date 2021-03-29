@@ -65,6 +65,21 @@ MKtl(\nk2).elAt(\kn, 7).action = { |el|
 	MainFX(s).set(\mainVol, (el.value * 2).squared)
 };
 
+// top 8 sounds to toggle directly:
+q.ndef.top8.do { |ndf, i|
+	// slider softsets vol and pauses when 0
+	MKtl(\nk2).elAt(\sl, i).action = { |sl|
+		ndf.softVol_(sl.value, lastVal: sl.prevValue);
+	};
+	// button R toggles on/off
+	// ? hold down modifier to get full chans?
+	MKtl(\nk2).elAt(\bt, \R, i).action = { |bt|
+		if (bt.isOn) {
+			if (ndf.monitor.isPlaying) { ndf.stop } { ndf.play }
+		}
+	}
+};
+
 
 // // stereoOut for recording
 // Ndef(\stereoOut78, { Splay.ar(InFeedback.ar(0, 6)) * 2 }).play(6);
