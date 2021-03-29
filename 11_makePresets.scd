@@ -20,7 +20,7 @@ q.loadSetup("batuque");
 
 q.pre = ();
 
-// 'micsAll' are broeken
+// 'micsAll' are broken
 // // fix mystery broken Ph_micsAll values
 // Ndef(\Ph_micsAll).supplementNodeMap;
 // Ndef(\Ph_micsAll).nodeMap.keys.do { |key|

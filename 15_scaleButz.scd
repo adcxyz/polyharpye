@@ -64,6 +64,7 @@ MKtl(\nk2).elAt(\tr).flat.keep(4).do { |el, scaleIndex|
 	};
 };
 
+// leave at direct control for emergency OFF
 MKtl(\nk2).elAt(\kn, 7).action = { |el|
 	MainFX(s).set(\mainVol, (el.value * 2).squared)
 };
