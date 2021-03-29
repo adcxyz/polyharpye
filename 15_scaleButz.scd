@@ -7,6 +7,10 @@ add more tunings?
 find UC4 ...
 */
 
+/*
+MKtl(\nk2).gui;
+*/
+
 Butz.add(\scaleGM, {
 	// default:
 	q.setScale(
@@ -34,18 +38,17 @@ Butz.add(\scaleHung42, {
 
 MKtl.find(\midi);
 MKtl(\nk2, "*trol2");
-/*
-MKtl(\nk2).gui;
-*/
 
-q.scenes.all[0].name;
+// S 1 2 3 4,
+// M 1 2 3 4,
+// S 5 6 7 8,
+// M 5 6 7 8,
 
-MKtl(\nk2).elAt(\bt).flat.clump(8).collect(_.keep(4)).flat.do { |el, sceneIndex|
+MKtl(\nk2).elAt(\bt, [\S, \M]).collect(_.clump(4)).flatten[[0, 2, 1, 3]].flat.do { |el, sceneIndex|
 	el.action = { |el|
 		if (el.isOn) {
 			defer {
 				q.scenes.buts[sceneIndex].valueAction_(1);
-				[sceneIndex, el].postln;
 			};
 		};
 	};
