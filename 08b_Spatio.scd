@@ -27,7 +27,6 @@ q.pos.showIndices = { |qpos, indices, col, colOff|
 	indices.postln;
 	ampVs.do { |v, i|
 		if (indices.includes(i)) {
-			i.postln;
 			v.background_(col);
 		} {
 			v.background_(colOff)
@@ -179,6 +178,8 @@ WinBounds.addMake(\spatio, {
 	MFdef(\selectScene).add(\byName, { |name|
 		var allScenesNames = q.scenes.all.collect(_.name);
 		var scene = q.scenes.all.detect { |dict| dict.name == name };
+		var layers, layerNames, firstLayer, ndefIndex;
+
 		case { scene.isNil } {
 			"*** scene % not found.".postf(name)
 		} { scene.onNdefs.isNil } {
@@ -188,16 +189,16 @@ WinBounds.addMake(\spatio, {
 			"*** scene % has no active layers.".postf(name)
 		} {
 			// scene has layers
-			var layers = scene.onNdefs.collect(_.ndef);
-			var layerNames = layers.collect(_.key);
-			var firstLayer = scene.onNdefs[0];
+			layers = scene.onNdefs.collect(_.ndef);
+			layerNames = layers.collect(_.key);
+			firstLayer = scene.onNdefs[0];
 			q.pos.selectedGroupIndices.clear;
 
 			scene.onNdefs.do { |ndefdict|
 				var indices = ndefdict.netIndex;
 				q.pos.selectedGroupIndices.addAll(indices);
 			};
-			q.pos.selectedGroupIndices.postln;
+			// q.pos.selectedGroupIndices.postln;
 
 			// update popups
 			defer {
@@ -207,7 +208,7 @@ WinBounds.addMake(\spatio, {
 				q.soundPop.widget.background_(Color.grey(0.8));
 
 				firstLayer !? {
-					var ndefIndex = q.ndef[\Sounds].indexOf(firstLayer.ndef);
+					ndefIndex = q.ndef[\Sounds].indexOf(firstLayer.ndef);
 					ndefIndex !? { q.soundPop.value = ndefIndex }
 			} };
 

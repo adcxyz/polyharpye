@@ -190,8 +190,8 @@ s.doWhenBooted {
 
 	// /// tweax
 	// MasterFX(s).add('9stereofy', 1);
-	// s.volume = -2;
-	// s.scope(6);
+	s.volume = -2;
+	// s.scope(q.numChans);
 
 
 	"\n*** SETUP DONE in % seconds.\n\n\n".postf((Main.elapsedTime - t0).round(0.001));

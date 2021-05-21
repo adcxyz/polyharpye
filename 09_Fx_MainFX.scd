@@ -12,6 +12,7 @@ if (MainFX.all.isEmpty) {
 	// 	q.load(filename, q.dir.userPOOL +/+ "4_effects");
 	// };
 
+	// steal from NTMI
 	q.load("~/src/aiberlin/NTMI/NTMI_AI_sc_setup/POOL/4_effects/allFX.scd");
 
 	//////// check integrity of all param specs - complains when specs are missing.

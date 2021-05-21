@@ -23,6 +23,7 @@ g = g ? (); // gui dict
 
 /// make nameViews/nameButs more prominent:
 g.tuneNameView = { |q, obj|
+	var but, states;
 	case {
 		obj.respondsTo(\nameView)
 		and: { obj.nameView.notNil }
@@ -33,8 +34,8 @@ g.tuneNameView = { |q, obj|
 		.background_(Color.blue)
 	} { obj.respondsTo(\nameBut) }
 	{
-		var but = obj.nameBut;
-		var states = but.states;
+		but = obj.nameBut;
+		states = but.states;
 		// "namebut ...".postln;
 		but.font_(Font("Helvetica", 16));
 		states[0].put(1, Color.white)
@@ -73,7 +74,7 @@ g.tuneNameView(PdefAllGui(4));
 	\MTP_MicIns, // collapse into single MTP button
 	\MTP_Resons,
 	\ndefmix,
-	'MasterFX',
+	'MainFX',
 	\tdefall,
 	\pdefall,
 	'restoreAll',
@@ -108,6 +109,8 @@ WinBounds.addMake('Tdef.all', {
 	q.tdagui.parent
 });
 
+Butz.add(\MainFX, { WinBounds.showOrMake('MainFX') });
+
 Butz.add(\pdefall, { WinBounds.showOrMake('Pdef.all') });
 WinBounds.addMake('Pdef.all', {
 	q.pdagui = PdefAllGui(16);
@@ -118,7 +121,7 @@ WinBounds.addMake('Pdef.all', {
 Butz.add(\drawMap, { WinBounds.showOrMake('drawMap') });
 WinBounds.addMake(\drawMap, { q.pos.drawMap(true) });
 
-Butz.add(\chord_explo, { (q.projdir +/+ "02b_explore_chords.scd").resolveRelative.openOS });
+Butz.add(\chord_explo, { (q.dir.poly +/+ "02b_explore_chords.scd").resolveRelative.openOS });
 
 Butz.add(\save_scene, { MFdef(\saveStr).value });
 
