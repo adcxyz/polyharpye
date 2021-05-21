@@ -181,11 +181,27 @@ q.setScale(
 );
 )
 
+q.modScale = { |q, numSwaps = 3|
+	var newScale = q.getScale;
+	var indices = (0..newScale.lastIndex).scramble.keep(numSwaps * 2).postln;
+	indices.pairsDo { |a, b|
+		newScale.swap(a, b);
+	};
+	q.setScale(newScale);
+};
+/*
+q.modScale (1) // minimal - swap 1 pair
+q.modScale (3) // 3 is noticeable - swap 1 pair
+q.modScale (6) // 6 i one quarter of all notes
+q.modScale (12) // half of all notes
+q.modScale (23) // all notes swapped
 
-// make one for cologneliness
-// q.makeScale(4711, \major);
-// // the current scale
-// "\n\n*** q.getScale is: %\n\n".postf(q.getScale);
+
+
+/////// make one for cologneliness
+q.makeScale(4711, \major);
+// the current scale
+"\n\n*** q.getScale is: %\n\n".postf(q.getScale);
 
 /*
 Ndef(\scaletest, {
