@@ -4,27 +4,8 @@
 q.getScale.round(0.001);
 q.getScaleAbs.round(0.001);
 
-// fade to random next chord:
-q.chords.xfade;
-// specifics
-q.chords.xfade(\mystic, 48);
-q.chords.xfade(\sacre, 48, 1);
-q.chords.xfade(\jimi, 52, 1);
-
-q.chords.xfade(\whole);
-q.chords.chords.keys.postcs.size;
-Tdef(\chords).stop;
-Ndef(\chords).end(20);
-
-Tdef(\chords, {
-	loop {
-		q.chords.chords.keys.do { |key|
-			q.chords.xfade(key, rrand(40, 60), 20);
-			60.wait;
-		}
-	}
-}).play;
-)
+see also:
+"02b_explore_chords.scd".resolveRelative.openOS;
 */
 (
 q.scale = q.scale ? ();
@@ -144,6 +125,13 @@ q.makeScale = { |q, seed, scaleName = \major, lowest = -3, highest = 2|
 		)
 	}.valueSeed(seed);
 };
+/*
+/////// make one for cologneliness
+q.makeScale(4711, \major);
+// the current scale
+"\n\n*** q.getScale is: %\n\n".postf(q.getScale);
+*/
+
 
 q.getScale = { Ndef(\scale).get(\scale) };
 q.getScaleAbs = { Ndef(\scale).get(\scale) + Ndef(\scale).get(\base) };
@@ -156,6 +144,17 @@ q.setScale = { |q, scale|
 		Ndef(\scale).set(\scale, scale)
 	}
 };
+
+/*
+// some reeeally boring scale
+q.setScale(q.makeScale(0815));
+// and the meaning of life
+q.setScale(q.makeScale(42));
+
+q.setScale(q.makeScale(10.rand.postln));
+Ndef(\scale).gui;
+
+*/
 
 q.scale.name = \hungarianMinor; q.scale.seed = 4711;
 q.scale.allIntervals = q.makeScale(q.scale.seed, q.scale.name);
@@ -179,8 +178,10 @@ q.setScale(
 	// (q.chords.chords.gmspiral2 ++ q.chords.chords.gmspiral2.keep(-19)).scramble
 	q.chords.golden.orderedChord;
 );
-)
+);
 
+/// modify scales gradually:
+// swap some note pairs
 q.modScale = { |q, numSwaps = 3|
 	var newScale = q.getScale;
 	var indices = (0..newScale.lastIndex).scramble.keep(numSwaps * 2).postln;
@@ -189,19 +190,15 @@ q.modScale = { |q, numSwaps = 3|
 	};
 	q.setScale(newScale);
 };
+
 /*
 q.modScale (1) // minimal - swap 1 pair
 q.modScale (3) // 3 is noticeable - swap 1 pair
 q.modScale (6) // 6 i one quarter of all notes
 q.modScale (12) // half of all notes
 q.modScale (23) // all notes swapped
+*/
 
-
-
-/////// make one for cologneliness
-q.makeScale(4711, \major);
-// the current scale
-"\n\n*** q.getScale is: %\n\n".postf(q.getScale);
 
 /*
 Ndef(\scaletest, {
@@ -209,16 +206,7 @@ Ndef(\scaletest, {
 }).play(0);
 */
 
-/*
-// reeeally boring
-q.setScale(q.makeScale(0815));
-// and the meaning of life
-q.setScale(q.makeScale(42));
 
-q.setScale(q.makeScale(10.rand.postln));
-Ndef(\scale).gui
-
-*/
 
 /*
 // build a fat chord network from adc chords:

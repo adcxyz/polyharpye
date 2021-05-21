@@ -5,6 +5,29 @@ TODO:
 - better hi-lo balance
 - hold notes with keys
 - could also play noise bursts directly into micsMax!
+
+// fade to random next chord:
+q.chords.xfade; // not working
+
+// specifics
+q.chords.xfade(\mystic, 48);
+q.chords.xfade(\sacre, 48, 1);
+q.chords.xfade(\jimi, 52, 1);
+
+q.chords.xfade(\whole);
+q.chords.chords.keys.postcs.size;
+Tdef(\chords).stop;
+Ndef(\chords).end(20);
+
+Tdef(\chords, {
+	loop {
+		P.do { |key|
+			q.chords.xfade(key, rrand(40, 60), 20);
+			60.wait;
+		}
+	}
+}).play;
+)
 */
 
 // set a current chord to explore:
@@ -70,60 +93,62 @@ Pdef(\z_kord2v,
 );
 );
 
-// (
-// // xfade between chords
-// q.chords.xfade = { |ch, key, base, fadeTime|
-// 	key = if (q.chords.chords[key].notNil, key, q.chords.chords.keys.choose);
-// 	q.chords.nextKey = key.postcs;
-// 	base = base ?? { rrand(24, 48) };
-// 	q.chords.base = base.postln;
-// 	q.chords.curr = q.chords.chords[key].round(0.001).postln.scramble;
-// 	Ndef(\z_kord).fadeTime = fadeTime ? exprand(0.1, 10);
-// 	Ndef(\z_kord).rebuild;
-// };
-// //
-// // // init once
-// // q.chords.xfade(\golden, nil, 5);
-// // q.chords.xfade( 'gmspiral', 60, 5);
-// /*
-// q.chords.xfade(nil, nil, 5); // random
-// q.chords.xfade(nil, nil, 5); // random
-//
-// (q.chords.chords.gmspiral2 + 60).midicps[[0, 45]];
-// q.chords.chords.gmspiral2.plot("gmspiral", nil, true);
-// q.chords.chords.gmspiral2.differentiate.drop(1).plot;
-//
-// // Random pling plong sounds, mouse left-right strums, up makes it loud
-//
-// Ndef(\z_kord, { |decay = 8, width = 2|
-// var numOuts = 2; // 6;
-// var chord = q.chords.curr;
-// var freqs = (chord + q.chords.base).midicps;
-// var numSnds = freqs.size;
-//
-// var mx = MouseX.kr(0, 4), my = MouseY.kr(0, 1).squared;
-// var micSim = PanAz.ar(chord.size,
-// Decay2.ar(Dust2.ar(10, GrayNoise.ar(0.25, 0.25)), 0.001, 0.01),
-// mx + LFSaw.kr(0.1) * 2,
-// my, width);
-//
-// var detune = LFDNoise3.kr(0.2 ! numSnds, 0.003, 1);
-// var strings = Ringz.ar(micSim,
-// freqs + detune,
-// (1000 / freqs ** 0.5).min(1) * decay
-// ).tanh;
-//
-// var out = strings.tanh;
-// var rev = AdCVerb2.ar(out.sum * 0.03, hfDamping: 0.3, nOuts: numOuts);
-// "*** numSnds: % freqs: \n%\n".postf(numSnds, freqs.round(0.01));
-//
-// if (numOuts > 2) {
-// out = SplayAz.ar(numOuts, out)
-// } {
-// out = Splay.ar(out);
-// };
-// out + rev
-// }).play(0, vol: 0.5);
-// )
-//
-// )
+
+// xfade between chords
+q.chords.xfade = { |ch, key, base, fadeTime|
+	key = if (q.chords.chords[key].notNil, key, q.chords.chords.keys.choose);
+	q.chords.nextKey = key.postcs;
+	base = base ?? { rrand(24, 48) };
+	q.chords.base = base.postln;
+	q.chords.curr = q.chords.chords[key].round(0.001).postln.scramble;
+	Ndef(\z_kord).fadeTime = fadeTime ? exprand(0.1, 10);
+	Ndef(\z_kord).rebuild;
+};
+
+/*
+// init once
+q.chords.xfade(\golden, nil, 5);
+q.chords.xfade( 'gmspiral', 60, 5);
+
+q.chords.xfade(nil, nil, 5); // random
+q.chords.xfade(nil, nil, 5); // random
+
+(q.chords.chords.gmspiral2 + 60).midicps[[0, 45]];
+q.chords.chords.gmspiral2.plot("gmspiral", nil, true);
+q.chords.chords.gmspiral2.differentiate.drop(1).plot;
+
+// Random pling plong sounds, mouse left-right strums, up makes it loud
+
+Ndef(\z_kord, { |decay = 8, width = 2|
+	var numOuts = 2; // 6;
+	var chord = q.chords.curr;
+	var freqs = (chord + q.chords.base).midicps;
+	var numSnds = freqs.size;
+
+	var mx = MouseX.kr(0, 4), my = MouseY.kr(0, 1).squared;
+	var micSim = PanAz.ar(chord.size,
+		Decay2.ar(Dust2.ar(10, GrayNoise.ar(0.25, 0.25)), 0.001, 0.01),
+		mx + LFSaw.kr(0.1) * 2,
+		my, width);
+
+	var detune = LFDNoise3.kr(0.2 ! numSnds, 0.003, 1);
+	var strings = Ringz.ar(micSim,
+		freqs + detune,
+		(1000 / freqs ** 0.5).min(1) * decay
+	).tanh;
+
+	var out = strings.tanh;
+	var rev = AdCVerb2.ar(out.sum * 0.03, hfDamping: 0.3, nOuts: numOuts);
+	"*** numSnds: % freqs: \n%\n".postf(numSnds, freqs.round(0.01));
+
+	if (numOuts > 2) {
+		out = SplayAz.ar(numOuts, out)
+	} {
+		out = Splay.ar(out);
+	};
+	out + rev
+}).play(0, vol: 0.5);
+)
+);
+*/
+
