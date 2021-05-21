@@ -4,7 +4,7 @@ q.scenes.fadeTime = 3;
 
 
 q.scenes.load = {
-	q.scenes.all = (q.projdir +/+ "SCENES/scene*.scd").pathMatch.collect(_.load);
+	q.scenes.all = (q.dir.poly +/+ "SCENES/scene*.scd").pathMatch.collect(_.load);
 	"q.scenes.all has % scenes loaded now.\n".postf(q.scenes.all.size);
 };
 q.scenes.load;

@@ -127,7 +127,7 @@ MFdef(\saveStr).add(\save, {
 	var name = "Polyharpye_on_%".format(date);
 	var header = "/*** % ****/\n\n".format(name);
 	var comments = "/*/n ... add comments here, and resave! ****/\n\n".format(name);
-	var folder = q.projdir +/+ "saves";
+	var folder = q.dir.poly +/+ "saves";
 	var filepath = folder +/+ "%.scd".format(name);
 
 	var ndefStr = Ndef.dictFor(s).playingProxies.collect { |name|

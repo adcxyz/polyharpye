@@ -97,9 +97,9 @@ q.proxySaveStr(Ndef(\scale));
 q.saveSetup = { |q, savename, includeNodeMaps = true|
 	var stamp = Date.getDate.stamp;
 	var basename = "SETUP_%.scd".format(savename ? stamp);
-	var filepath = q.projdir +/+ basename;
+	var filepath = q.q.dir.poly +/+ basename;
 	var bkName = "setups_BK/SETUP_%_%_BK.scd".format(savename, stamp);
-	var bkfilepath = q.projdir +/+ bkName;
+	var bkfilepath = q.q.dir.poly +/+ bkName;
 
 	var title = "/*** % - saved at date % . ***/\n\n".format(basename, stamp);
 
@@ -112,7 +112,7 @@ q.saveSetup = { |q, savename, includeNodeMaps = true|
 		if (filepath.pathMatch.notNil) {
 			// moving previous version to backup folder
 			File.mkdir(bkfilepath.dirname);
-			unixCmd("mv % %".format( filepath.quote, (q.projdir +/+ bkName).quote).postcs, { cond.unhang });
+			unixCmd("mv % %".format( filepath.quote, (q.q.dir.poly +/+ bkName).quote).postcs, { cond.unhang });
 			cond.hang;
 		};
 
@@ -157,7 +157,7 @@ q.saveSetup = { |q, savename, includeNodeMaps = true|
 );
 
 q.loadSetup = { |q, setupName="blablbal"|
-	var path = q.projdir +/+ "SETUP_%.scd".format(setupName);
+	var path = q.q.dir.poly +/+ "SETUP_%.scd".format(setupName);
 	path.pathMatch.postcs;
 	path.loadPaths;
 };

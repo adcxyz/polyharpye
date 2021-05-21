@@ -3,7 +3,7 @@
 q.mtp = q.mtp ? ();
 
 // make sure MTP will find its tongsengmod binary
-MTP.progpath = q.projdir +/+ "binaries";
+MTP.progpath = q.dir.poly +/+ "binaries";
 
 // a synthdef to play intos the e.g. 6 micIns
 SynthDef(\noyzMicIns, { |out, amp = 0.1, pan, gate = 1, freq = 261, reso = 10|

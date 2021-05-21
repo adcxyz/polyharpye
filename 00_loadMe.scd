@@ -4,7 +4,8 @@
 
 // global storage
 q = q ? ();
-q.projdir = thisProcess.nowExecutingPath.dirname;
+q.dir = q.dir ? ();
+q.dir.poly = thisProcess.nowExecutingPath.dirname;
 
 ////////////////////////////////////////////////////////////
 "***** GLOBAL SETUP things first: ******".postln;
@@ -32,7 +33,7 @@ q.load = { |q, filename, here, wait = 0.05, dirsup = 0, preText = "", postText =
 
 		path = filename.standardizePath;
 		if (path[0].isPathSeparator.not) {
-			here = here ? q.projdir; // q.dir.base;
+			here = here ? q.dir.poly; // q.dir.base;
 			dirsup.do { here = here.dirname };
 			path = (here +/+ path);
 		};
@@ -127,7 +128,7 @@ s.doWhenBooted {
 	s.latency = 0.1;
 	s.sync; 0.1.wait;
 
-	(q.projdir +/+ "02*.scd").pathMatch.collect(_.basename);
+	(q.dir.poly +/+ "02*.scd").pathMatch.collect(_.basename);
 
 	q.load("02a_chords.scd");
 	q.load("02b_explore_chords.scd");
