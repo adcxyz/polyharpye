@@ -24,7 +24,8 @@ SynthDef(\noyzMicIns, { |out, amp = 0.1, pan, gate = 1, freq = 261, reso = 10|
 // same synthdef to play into the reson inputs
 SynthDef(\noyzResons, { |out, amp = 0.0, panx, pany, gate = 1, freq = 261, reso = 10|
 	var env = EnvGen.ar(Env.asr(0.001, 1, 0.1), gate, doneAction: 2);
-	var amps = q.pos.xy2distAmps(panx @ pany, q.pos.mics)[1];
+	// var amps = q.pos.xy2distAmps(panx @ pany, q.pos.mics, 2)[1];
+	var amps = q.pos.xyBellDist(panx @ pany, q.pos.mics, 0.4)[1];
 
 	// var freq2 = (freq * (5 ** LFDNoise3.kr(ExpRand(1, 30), amp * 0.3))).clip(50, 15000);
 	// var snd = BPF.ar(GrayNoise.ar + Dust.ar(30, 20), freq2 * [1, 1.9], 1/reso);
