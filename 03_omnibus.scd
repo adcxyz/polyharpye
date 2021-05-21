@@ -75,14 +75,14 @@ try { s.sync };
 Ndef('Pz_grid', { |hpfreq = 20, amp = 1.0, limit = 0.5, driftRate = 0.1, driftdepth = 1|
 	var gridIns = Ndef('Pz_ins2Spk').ar; // q.numSpks
 	var gridOuts = gridIns * (q.numSpks * 2 / q.numResons * amp.lag(1.0));
-	var maxDelay = 0.01;
+	var maxDelay = 0.01; // 10 msec
 
 	gridOuts = RHPF.ar(gridOuts, hpfreq.lag(1), 0.7);
 	gridOuts = Limiter.ar(gridOuts, limit, 0.005);
 
 	//// antifeedback phase shift -
 	driftRate = driftRate.lag(1);
-	driftdepth = driftdepth.lag(1) * maxDelay;
+	driftdepth = driftdepth.lag(1) * maxDelay * 0.5;
 
 	gridOuts = gridOuts.collect { |chan|
 		DelayL.ar(chan, maxDelay, LFDNoise3.kr(driftRate, driftdepth, driftdepth) );
