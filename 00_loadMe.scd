@@ -174,7 +174,8 @@ s.doWhenBooted {
 	q.load("12b_sceneGui.scd");
 	s.sync; 0.1.wait;
 
-	0.25.wait;
+	q.load("13_nanoKontrol2.scd");
+	0.1.wait;
 
 	q.load("15_scaleButz.scd");
 	0.05.wait;
