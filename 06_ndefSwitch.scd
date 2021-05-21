@@ -85,3 +85,22 @@ MFdef(\ndef2net).add(\switch, { |ndef, netIndex, fadeTime = 3, vol, settings|
 		try { s.sync };
 	};
 });
+
+// rebuild one Ndef with a random choice of groups, just give it a size:
+MFdef(\playRandGroups).add(\groups, { |ndef, numGroups = 2, fadeTime = 3 |
+	fork {
+		var netGroups = (0..q.pos.micGroups.lastIndex).scramble.keep(numGroups).postln;
+		MFdef(\ndef2net).value(
+			ndef,
+			netGroups,
+			fadeTime
+		);
+	}
+});
+
+/*
+MFdef(\playRandGroups).value(Ndef('Ph_sitar1'), 1); // few notes, usually 10
+MFdef(\playRandGroups).value(Ndef('Ph_tabloid'), 2); // usually 18-20
+MFdef(\playRandGroups).value(Ndef('Ph_glassy'), 4);  // around 30
+MFdef(\playRandGroups).value(Ndef('Ph_sitar1'), 8); // usually all 46
+*/
