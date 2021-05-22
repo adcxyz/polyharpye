@@ -66,21 +66,22 @@ MFdef('drawSpat').add(\drawGroups, { |uv|
 	Pen.color = Color.grey(1);
 	Pen.width = 1.5;
 	// q.xy.xybase = fixed + drifting mouse xyw
-	q.xy.xybase.clump(3).do { |xys, i|
-		var name = ["fix", "drift"][i];
-		var center = (xys.keep(2) + [1, 1] * q.pos.spatScaler).asPoint;
-		var width = xys[2] * q.pos.spatScaler * 0.1;
-		var rect = Rect.aboutPoint(center, width, width);
-		Pen.strokeOval(rect);
-		Pen.stringCenteredIn(name, rect, font)
-	};
+	// q.xy.xybase.clump(3).do { |xys, i|
+	// 	var name = ["fix", "drift"][i];
+	// 	var center = (xys.keep(2) + [1, 1] * q.pos.spatScaler).asPoint;
+	// 	var width = xys[2] * q.pos.spatScaler * 0.1;
+	// 	var rect = Rect.aboutPoint(center, width, width);
+	// 	Pen.strokeOval(rect);
+	// 	Pen.stringCenteredIn(name, rect, font)
+	// };
 
 	// q.xy.xxyys is drifting xys for all mics:
 	q.xy.xxyys.clump(3).do { |xys, i|
 		var center = (xys.keep(2) + [1, 1] * q.pos.spatScaler).asPoint;
-		var width = xys[2] * q.pos.spatScaler * 0.1;
+		var width = xys[2] * q.pos.spatScaler * 0.3;
 		var rect = Rect.aboutPoint(center, width, width);
-		Pen.strokeOval(rect);
+		Pen.fillColor_(Color.grey(1, 0.3));
+		Pen.fillOval(rect);
 		Pen.stringCenteredIn((i + 1).asString, rect, font)
 	};
 });
