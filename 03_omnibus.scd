@@ -49,9 +49,18 @@ Ndef('Pz_ins2Spk', {
 
 	// works for caeiros, not generally:
 	// pan every reson chan to speaker ring by angle
-	allIns.sum { |chan, i|
-		var angle = q.pos.mics[i].theta;
-		PanAz.ar(q.numSpks, chan, angle / pi)
+	if (q.numChans > 2) {
+		allIns.sum { |chan, i|
+			var angle = q.pos.mics[i].theta;
+			PanAz.ar(q.numSpks, chan, angle / pi)
+		};
+	} {
+		"stereo".postln;
+		// stereo: just use Pan2 with pos-x to +-1
+		allIns.sum { |chan, i|
+			var panpos = q.pos.mics[i].x * 0.125;
+			Pan2.ar(chan, panpos)
+		};
 	};
 
 	// // quick and dirty hack low-cpu hack:
@@ -76,6 +85,7 @@ Ndef('Pz_grid', { |hpfreq = 20, amp = 1.0, limit = 0.5, driftRate = 0.1, driftde
 	var gridIns = Ndef('Pz_ins2Spk').ar; // q.numSpks
 	var gridOuts = gridIns * (q.numSpks * 2 / q.numResons * amp.lag(1.0));
 	var maxDelay = 0.01; // 10 msec
+	var commonDelayTime;
 
 	gridOuts = RHPF.ar(gridOuts, hpfreq.lag(1), 0.7);
 	gridOuts = Limiter.ar(gridOuts, limit, 0.005);
@@ -84,8 +94,14 @@ Ndef('Pz_grid', { |hpfreq = 20, amp = 1.0, limit = 0.5, driftRate = 0.1, driftde
 	driftRate = driftRate.lag(1);
 	driftdepth = driftdepth.lag(1) * maxDelay * 0.5;
 
+	commonDelayTime = LFDNoise3.kr(driftRate, driftdepth, driftdepth);
+
 	gridOuts = gridOuts.collect { |chan|
-		DelayL.ar(chan, maxDelay, LFDNoise3.kr(driftRate, driftdepth, driftdepth) );
+		///// share same delaytime to avoid headphone panning drift
+		var delaytime = commonDelayTime;
+		///// use individual delaytimes in multichan settings?
+		// var delaytime = LFDNoise3.kr(driftRate, driftdepth, driftdepth);
+		DelayL.ar(chan, maxDelay, delaytime);
 	};
 });
 try { s.sync };

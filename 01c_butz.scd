@@ -86,7 +86,7 @@ g.tuneNameView(PdefAllGui(4));
 ].do (Butz.add(_));
 
 Butz.show;
-Butz.add(\StartupFile, { StartupFile.choose });
+Butz.add(\StartupFile, { StartupFile.dialog });
 Butz.add(\minimax, {
 	if (Butz.w.bounds.height > 100) {
 		Butz.showButs(1, 0.01)
