@@ -55,6 +55,18 @@ MKtl(\nanoK2).elAt(\kn, 7).action = { |el|
 	MainFX(s).set(\mainVol, (el.value * 2).squared)
 };
 
+
+MKtl(\nanoK2).elAt(\tr, \tleft).action = { |bt|
+	if (bt.isOn.not) {
+		MFdef(\mainPreStep).(1);
+	};
+};
+MKtl(\nanoK2).elAt(\tr, \tright).action = { |bt|
+	if (bt.isOn.not) {
+		MFdef(\mainPreStep).(-1);
+	}
+};
+
 // three buttons to read for number of nets to activate
 MKtl(\nanoK2).elAt(\tr, \mset).elemDesc.label = "RDN1";
 MKtl(\nanoK2).elAt(\tr, \mleft).elemDesc.label = "RDN2";
