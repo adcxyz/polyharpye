@@ -49,7 +49,7 @@ Ndef('Pz_ins2Spk', {
 
 	// works for caeiros, not generally:
 	// pan every reson chan to speaker ring by angle
-	if (q.numChans > 2) {
+	if (q.numSpks > 2) {
 		allIns.sum { |chan, i|
 			var angle = q.pos.mics[i].theta;
 			PanAz.ar(q.numSpks, chan, angle / pi)
