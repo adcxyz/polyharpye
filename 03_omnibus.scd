@@ -81,6 +81,10 @@ Ndef('Pz_ins2Spk', {
 
 try { s.sync };
 
+// delaytime drift on outputs shifts acoustic feedback
+// common delaytime for all chans keeps panning image,
+// individual delaytimes make acoustic feedback more lively
+
 Ndef('Pz_grid', { |hpfreq = 20, amp = 1.0, limit = 0.5, driftRate = 0.1, driftdepth = 1|
 	var gridIns = Ndef('Pz_ins2Spk').ar; // q.numSpks
 	var gridOuts = gridIns * (q.numSpks * 2 / q.numResons * amp.lag(1.0));
@@ -93,6 +97,7 @@ Ndef('Pz_grid', { |hpfreq = 20, amp = 1.0, limit = 0.5, driftRate = 0.1, driftde
 	//// antifeedback phase shift -
 	driftRate = driftRate.lag(1);
 	driftdepth = driftdepth.lag(1) * maxDelay * 0.5;
+
 
 	commonDelayTime = LFDNoise3.kr(driftRate, driftdepth, driftdepth);
 
