@@ -197,32 +197,31 @@ Ndef(\Pa_micsMax).addSpec(\gain, [0, 4, \amp]);
 // 	}.flat.wrapExtend(q.numResons);
 // });
 
-
-////////////// micsMax with real xy panning, yay!
-Ndef(\Pa_micsMax, { |gain = 1|
+////////////// micsMax use xywidth panning w belldist
+Ndef(\Pa_micsMax, { |gain = 1, driftspeed = 1|
 	var ins = Ndef(\Pa_micIns).ar * gain.lag(1);
 	var numins = ins.size;
 
-	var xyw = Ndef(\xy).kr;
-	var width = xyw[2];
 	var xdrift = LFDNoise3.kr(0.1).sqrt;
 	var ydrift = LFDNoise3.kr(0.1).sqrt;
 	var scalers = ((0..numins-1) - (numins - 1 / 2) / numins * 2);
 
-	// drifting line of multiple XYs
+	// drifting lines of multiple independent XYwidths
 	var xypans = numins.collect { |i|
-		[ xyw[0] + (xdrift * scalers[i]),
-			xyw[1] + (ydrift * scalers[i]),
-			width
-		]
+		var x = LFDNoise3.kr(0.1618 * driftspeed);
+		var y = LFDNoise3.kr(0.1000 * driftspeed);
+		var wid = LFDNoise3.kr(0.0618 * driftspeed).linlin(-1, 1, 0.1, 1);
+		var limit = 1; /// (x.abs + y.abs).max(1).reciprocal;
+		[ x * limit, y * limit, wid ]
 	};
-
 	// not using width for now
 	var outsigs = ins.sum { |chan, i|
-		var amps = q.pos.xy2distAmps(
+		var xyschan = xypans[i];
+		var amps = q.pos.xyBellDist(
 			// scale up to meters
-			(xypans[i].keep(2) * [10, -10]).asPoint,
-			q.pos.mics
+			(xyschan.keep(2) * [ 9.5, -9.5]).asPoint,
+			q.pos.mics,
+			xyschan[2]
 		)[1];
 		chan * amps;
 	};
@@ -232,6 +231,43 @@ Ndef(\Pa_micsMax, { |gain = 1|
 
 	outsigs;
 });
+
+/*
+////////////// micsMax with real xy panning, yay!
+Ndef(\Pa_micsMax, { |gain = 1|
+var ins = Ndef(\Pa_micIns).ar * gain.lag(1);
+var numins = ins.size;
+
+var xyw = Ndef(\xy).kr;
+var width = xyw[2];
+var xdrift = LFDNoise3.kr(0.1).sqrt;
+var ydrift = LFDNoise3.kr(0.1).sqrt;
+var scalers = ((0..numins-1) - (numins - 1 / 2) / numins * 2);
+
+// drifting line of multiple XYs
+var xypans = numins.collect { |i|
+[ xyw[0] + (xdrift * scalers[i]),
+xyw[1] + (ydrift * scalers[i]),
+width
+]
+};
+
+// not using width for now
+var outsigs = ins.sum { |chan, i|
+var amps = q.pos.xy2distAmps(
+// scale up to meters
+(xypans[i].keep(2) * [10, -10]).asPoint,
+q.pos.mics
+)[1];
+chan * amps;
+};
+// outsigs.size.postln;
+SendReply.kr(Impulse.kr(20), '/xxyys', xypans.flat);
+
+
+outsigs;
+});
+*/
 
 try { Ndef(\Pa_micsAll).parentGroup_(q.grpList[0]) };
 
