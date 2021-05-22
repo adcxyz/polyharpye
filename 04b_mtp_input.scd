@@ -22,7 +22,8 @@ SynthDef(\noyzMicIns, { |out, amp = 0.1, pan, gate = 1, freq = 261, reso = 10|
 }).add;
 
 // same synthdef to play into the reson inputs
-SynthDef(\noyzResons, { |out, amp = 0.0, panx, pany, gate = 1, freq = 261, reso = 10|
+SynthDef(\noyzResons, { |out, amp = 0.0, panx, pany, panrad = 0.4,
+	gate = 1, freq = 261, reso = 10|
 	var env = EnvGen.ar(Env.asr(0.001, 1, 0.1), gate, doneAction: 2);
 	// var amps = q.pos.xy2distAmps(panx @ pany, q.pos.mics, 2)[1];
 	var amps = q.pos.xyBellDist(panx @ pany, q.pos.mics, 0.4)[1];
@@ -249,8 +250,9 @@ MFdef(\noyzResons).add('switch', {
 			\freq, exprand(100, 3000), // (xys[0]).linexp(0, 1, 30, 3000),
 			\reso, 3, // xys[1].linexp(0, 1, 5, 100),
 			\amp, xys[2].squared * 2,
-			\panx, xys[0] * 2 - 1 * 10,
-			\pany, xys[1] * 2 - 1 * -10
+			\panx, xys[0] - 0.5 * 19 - 0.1,
+			\pany, xys[1] - 0.5 * -19 + 0.7,
+			\panrad, xys[2].linlin(0.6, 6, 0.2, 1)
 		]);
 	};
 	MTP.untouchAction = {|curID|
@@ -258,15 +260,24 @@ MFdef(\noyzResons).add('switch', {
 		q.mtp.vcRes.release(curID);
 	};
 	MTP.setAction = { |curID, xys|
-		//    "   set curID: % xys: % \n    ".postf(curID, xys.round(0.001));
-		q.mtp.vcRes.setAt(curID, *[
-			// \freq, (xys[0]).linexp(0, 1, 100, 10000),
-			\reso, 3, // xys[1].linexp(0, 1, 5, 100),
-			\amp, xys[2].squared * 0.5,
-			\panx, xys[0] * 2 - 1 * 10,
-			\pany, xys[1] * 2 - 1 * -10
-		]);
-	};
+	var unix = xys[0], uniy = xys[1], unirad = xys[2];
+	var metx, mety, metrad;
+	//    "   set curID: % xys: % \n    ".postf(curID, xys.round(0.001));
+	// do the precise conversions:
+	metx = (unix - 0.5 * 19 - 0.1);
+	mety = (uniy - 0.5 * -19 + 0.7);
+	metrad = unirad.linlin(0.6, 6, 0.2, 1);
+
+	// matches with q.pos.mics now!
+	// [metx, mety].round(0.01).postln;
+
+	q.mtp.vcRes.setAt(curID, *[
+		\amp, xys[2].squared * 0.5,
+		\panx, metx,
+		\pany, mety,
+		\panrad, metrad
+	]);
+};
 });
 
 Butz.add(\MTP_MicIns, MFdef(\noyzMicIns));
