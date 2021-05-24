@@ -33,7 +33,7 @@ q.load = { |q, filename, here, wait = 0.05, dirsup = 0, preText = "", postText =
 
 		path = filename.standardizePath;
 		if (path[0].isPathSeparator.not) {
-			here = here ? q.dir.poly; // q.dir.base;
+			here = here ? q.dir.poly;
 			dirsup.do { here = here.dirname };
 			path = (here +/+ path);
 		};
@@ -149,8 +149,8 @@ s.doWhenBooted {
 
 	s.sync; 0.1.wait;
 
-	// all sounds:
-	q.load("07_snds/07*.scd");
+	// all sounds are up one level:
+	q.load("07_snds/07*.scd", q.dir.poly.dirname);
 	"... snds loaded. \n\n".postln;
 
 	s.sync; 0.2.wait;
@@ -171,8 +171,6 @@ s.doWhenBooted {
 	q.load("11_makePresets.scd");
 
 	q.load("12a_sceneSwitcher.scd");
-
-	Butz.run(\ndefmix);
 
 	q.load("12b_sceneGui.scd");
 	s.sync; 0.1.wait;

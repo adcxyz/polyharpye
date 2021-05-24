@@ -36,3 +36,6 @@ WinBounds.addMake(\ndefmix, {
 	q.mixbuts[0].valueAction_(1);
 	q.mixwin;
 });
+
+Butz.run(\ndefmix);
+

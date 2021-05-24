@@ -3,7 +3,7 @@
 var requiredNames = [ "JITLibExtensions", "adclib",
 	"SafetyNet",  "StartupFile",
 	"Influx", "Modality-toolkit",
-	// "KtlLoop", "KeyPlayer",
+	"KtlLoop", "KeyPlayer",
 	"MultiTouchPad", "SpeakersCorner" ].collect(_.asSymbol);
 
 var installedNames = Quarks.installed.collect(_.name).collect(_.asSymbol);

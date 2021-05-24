@@ -156,6 +156,7 @@ MTP.keydownDict[$p] = { WinBounds.showOrMake('Pdef.all') };
 
 MTP.keydownDict[$T] = { WinBounds.showOrMake('TESTS') };
 MTP.keydownDict[$C] = { Butz.run('ChordPlayer') };
+MTP.keydownDict[$k] = { Butz.run('nanoK2') };
 
 MTP.infoText.clear.addAll([
 	"space: play, dot: stop",
@@ -165,7 +166,7 @@ MTP.infoText.clear.addAll([
 	"m: ndefmix, M: MasterFX",
 	"p: pdefall, t: tdefall",
 	"T: tests, C: ChordPlayer",
-
+	"k: nanoKontrol"
 ]);
 
 
