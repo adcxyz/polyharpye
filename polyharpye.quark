@@ -1,0 +1,9 @@
+(
+	\name: "polyharpye",
+	\path: "polyharpye",
+	\summary: "An Xstrument - a performance setup for playing sound sources through resonator networks.",
+	\author: "Alberto de Campo",
+	\version: 0.1,
+	\organization: "Society for Nontrivial Pursuits, Berlin",
+	\since: "2020"
+)
