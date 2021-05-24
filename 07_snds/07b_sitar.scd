@@ -52,6 +52,7 @@ Ndef(\Ph_sitar1, { |amp = 0.5, transpose = -12,
 
 	snd = RLPF.ar((OnePole.ar(snd * 3.5, 0.5)).tanh, ffreq * (7.2 + (slotick * 24)), rq);
 
+	snd.tanh;
 	// DelayL.ar(snd, 0.02, LFDNoise3.kr(0.1, 0.01, 0.01));
 });
 

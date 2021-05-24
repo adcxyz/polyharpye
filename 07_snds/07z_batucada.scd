@@ -72,7 +72,7 @@ Ndef(\Ph_batucada, { |minamp = 0.0, guideAmp = 0.0|
 		).sum;
 
 		// six-sound layer
-		[snd1, snd2, snd3, snd4, snd5, snd6];
+		[snd1, snd2, snd3, snd4, snd5, snd6].tanh;
 	};
 	layers.flat;
 });
