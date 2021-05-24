@@ -151,7 +151,7 @@ WinBounds.addMake(\spatio, {
 	var posMics = q.pos.mics.collect { |list|
 		(list * [1, -1] * 0.1 + [0.03, 0.04]).asPoint
 	};
-	var posSpks = q.pos.spks.keep(q.numOuts).collect { |list|
+	var posSpks = q.pos.spks.keep(q.numSpks).collect { |list|
 		(list * [1, -1] * 0.1 + [0.03, 0.04]).asPoint
 	};
 
