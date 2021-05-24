@@ -21,7 +21,7 @@ q.lastReson = q.numResons - 1;
 Ndef.defaultReshaping = nil;
 
 
-s.latency = 0.05; // fast response for MTP
+s.latency = 0.06; // fast response for MTP
 
 ///////// LOAD ALL CODE FILES IN TASKS, with posting:
 
@@ -189,11 +189,7 @@ s.doWhenBooted {
 
 	Ndef(\Pz_grid).play(vol: 0.25, fadeTime: 3);
 
-	// /// tweax
-	// MasterFX(s).add('9stereofy', 1);
-	s.volume = -2;
-	// s.scope(q.numChans);
-
+	s.volume = -6;
 
 	"\n*** SETUP DONE in % seconds.\n\n\n".postf((Main.elapsedTime - t0).round(0.001));
 };
