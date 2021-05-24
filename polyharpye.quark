@@ -5,5 +5,10 @@
 	\author: "Alberto de Campo",
 	\version: 0.1,
 	\organization: "Society for Nontrivial Pursuits, Berlin",
-	\since: "2020"
+	\since: "2020",
+	\dependencies: [ "JITLibExtensions", "adclib",
+	"SafetyNet",  "StartupFile",
+	"Influx", "Modality-toolkit",
+	"KtlLoop", "KeyPlayer",
+	"MultiTouchPad", "SpeakersCorner" ]
 )
