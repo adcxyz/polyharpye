@@ -65,6 +65,9 @@ q.load = { |q, filename, here, wait = 0.05, dirsup = 0, preText = "", postText =
 q.startedTime = Main.elapsedTime;
 
 Task({
+////// soft check for present quarks
+	q.load("007_checkQuarks.scd");
+
 	// the number of the beast
 	thisThread.randSeed = q.randSeed;
 
