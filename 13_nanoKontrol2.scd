@@ -86,7 +86,7 @@ MKtl(\nanoK2).elAt(\tr, \cycle).action = { |bt|
 		"swap 1/4".postln;
 		numPairs2Swap = 6;
 	} {
-		"swap 1/4".postln;
+		"swap 1/8".postln;
 	};
 	q.modScale(numPairs2Swap);
 };
