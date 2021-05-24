@@ -11,3 +11,5 @@ The sound sources are playing onto a 2D map of virtual sound inputs, and mapped 
 
 The resonator patches are Ndefs (sound generators in SuperCollider), and can be told which subsets of the virtual inputs to listen to. E.g., all inputs could go into sitar-string-like resonators, or 10 inputs go to the sitar, 20 go to a modeled tabla, and 20 others to a glassharp sound. These combinations can be stored in scenes. 
 
+It is designed to be played with the polyharpye objects, as described here:
+https://2020.xcoax.org/adc/
