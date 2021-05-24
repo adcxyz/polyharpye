@@ -65,7 +65,7 @@ q.load = { |q, filename, here, wait = 0.05, dirsup = 0, preText = "", postText =
 q.startedTime = Main.elapsedTime;
 
 Task({
-////// soft check for present quarks
+	////// soft check for present quarks
 	q.load("007_checkQuarks.scd");
 
 	// the number of the beast
@@ -141,7 +141,15 @@ s.doWhenBooted {
 
 	q.load("03_omnibus.scd");
 	q.load("04_micsAll.scd");
-	q.load("04b_mtp_input.scd");
+
+	Platform.case(
+		// MultiTouchPad only runs on macOS, so we load MTP patch:
+		\osx, { q.load("04b_mtp_input.scd") }, {
+			// load single mousexy on window instead?
+			"MultiTouchPad - cannot run on %.".postf(thisProcess.platform.name)
+		}
+	);
+
 	q.load("04c_synths2Mics.scd");
 
 	q.load("06_ndefSwitch.scd");
