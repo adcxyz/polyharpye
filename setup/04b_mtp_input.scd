@@ -3,7 +3,7 @@
 q.mtp = q.mtp ? ();
 
 // make sure MTP will find its tongsengmod binary
-MTP.progpath = q.dir.poly +/+ "binaries";
+MTP.progpath = q.dir.poly.dirname +/+ "binaries";
 
 // a synthdef to play intos the e.g. 6 micIns
 SynthDef(\noyzMicIns, { |out, amp = 0.1, pan, gate = 1, freq = 261, reso = 10|
@@ -174,7 +174,7 @@ MFdef(\MTP_toFront).add(\show, {
 	// then put MTP window on top
 	Window.allWindows.do(_.front);
 	WinBounds.showOrMake(\spatio);
-	MTP.start.gui.front;
+	MTP.start(true).gui.front;
 	MTP.uview.resize_(1);
 	MTP.uview.drawFunc = MFdef(\MTP_draw);
 
