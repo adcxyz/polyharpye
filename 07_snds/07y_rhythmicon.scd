@@ -19,8 +19,9 @@ MFdef(\ndef_setNet).value(Ndef(\Ph_rhythmicon), 10);
 
 Ndef(\Ph_rhythmicon).addSpec(\minamp,  [0, 0.1]);
 Ndef(\Ph_rhythmicon).addSpec(\baserate,  [0.618, 11.09, \exp]);
+Ndef(\Ph_rhythmicon).addSpec(\ringscale,  [0.25, 4, \exp]);
 
-Ndef(\Ph_rhythmicon, { |minamp = 0.0, baserate = 2.618|
+Ndef(\Ph_rhythmicon, { |minamp = 0.0, baserate = 2.618, ringscale = 1.4|
 	var thisNdef = Ndef(\Ph_rhythmicon);
 	var indices = thisNdef.getHalo(\myNet);
 	var numRopes = indices.size;
@@ -34,7 +35,7 @@ Ndef(\Ph_rhythmicon, { |minamp = 0.0, baserate = 2.618|
 	var snd = Ringz.ar(
 		(tix * (max(amps, minamp)).clip2(1)),
 		freqs * (1 + (amps.collect (_ * rrand(0.02, 0.1)))),
-		1/rates;
+		ringscale/rates;
 	).tanh;
 
 	snd;
