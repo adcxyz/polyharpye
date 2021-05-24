@@ -210,7 +210,7 @@ Ndef(\Pa_micsMax, { |gain = 1, driftspeed = 1|
 	var xypans = numins.collect { |i|
 		var x = LFDNoise3.kr(0.1618 * driftspeed);
 		var y = LFDNoise3.kr(0.1000 * driftspeed);
-		var wid = LFDNoise3.kr(0.0618 * driftspeed).linlin(-1, 1, 0.1, 1);
+		var wid = LFDNoise3.kr(0.0618 * driftspeed).linlin(-1, 1, 0.3, 1);
 		var limit = 1; /// (x.abs + y.abs).max(1).reciprocal;
 		[ x * limit, y * limit, wid ]
 	};
