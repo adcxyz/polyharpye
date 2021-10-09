@@ -87,13 +87,7 @@ g.tuneNameView(PdefAllGui(4));
 
 Butz.show;
 Butz.add(\StartupFile, { StartupFile.dialog });
-Butz.add(\minimax, {
-	if (Butz.w.bounds.height > 100) {
-		Butz.showButs(1, 0.01)
-	} {
-		Butz.showButs(Butz.numButz)
-	}
-});
+Butz.addMiniMax;
 
 Butz.add(\SCENES, { WinBounds.showOrMake('SCENES') });
 // WinBounds.addMake(\SCENES) is defined later
