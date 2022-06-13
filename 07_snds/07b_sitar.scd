@@ -46,7 +46,7 @@ Ndef(\Ph_sitar1, { |amp = 0.5, transpose = -12,
 	var penv = LFDNoise0.kr(8 ! numRopes,
 		slotick.lag(0.4) * 0.05 * pmod, 1).lag(0.1);
 	var snd = CombL.ar(
-		LeakDC.ar(pick, 0.998),
+		LeakDC.ar(pick, 0.9995),
 		0.03, 1/freqs * penv,
 		decaytimes).softclip;
 
