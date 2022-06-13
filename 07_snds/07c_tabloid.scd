@@ -34,7 +34,7 @@ Ndef(\Ph_tabloid, {|amp = 1.0, decayScale = 1.2, transpose = 0, hpfreq = 200, wh
 		inputs2,
 		freqs2.collect (_ * ringfreqs),
 		ringcomp.collect (_ * decayscalers),
-	).sum * ampcomp).tanh;
+	).sum * (ampcomp * 0.33)).tanh;
 	snd
 });
 try { s.sync };
