@@ -21,8 +21,6 @@ q.lastReson = q.numResons - 1;
 Ndef.defaultReshaping = nil;
 
 
-s.latency = 0.06; // fast response for MTP
-
 ///////// LOAD ALL CODE FILES IN TASKS, with posting:
 
 //////// loads local or absolute filenames or paths,
@@ -71,8 +69,6 @@ Task({
 	// the number of the beast
 	thisThread.randSeed = q.randSeed;
 
-	s.volume = -12;
-
 	if (s.serverRunning.not) {
 		q.load("01_serverSetup.scd");
 		// Server.scsynth;
@@ -111,6 +107,8 @@ Task({
 		fork ({
 			while { s.serverRunning.not } { ".".postln; 1.wait }
 		}, AppClock);
+	} {
+		"server already running, not booting ...\n\n".postln;
 	};
 
 }, AppClock).play;
@@ -198,7 +196,9 @@ s.doWhenBooted {
 
 	Ndef(\Pz_grid).play(vol: 0.25, fadeTime: 3);
 
-	s.volume = -6;
+	// fast response for MTP
+	s.latency = q.poly.latency ? 0.06;
+	s.volume = q.poly.volume ? -6;
 
 	"\n*** SETUP DONE in % seconds.\n\n\n".postf((Main.elapsedTime - t0).round(0.001));
 };

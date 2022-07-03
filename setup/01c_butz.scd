@@ -66,8 +66,7 @@ g.tuneNameView(PdefAllGui(4));
 );
 
 [
-	\minimax,
-	\StartupFile,
+	\StartupDial,
 	\SCENES,
 	'spatio',
 	\globalXY,
@@ -86,7 +85,7 @@ g.tuneNameView(PdefAllGui(4));
 ].do (Butz.add(_));
 
 Butz.show;
-Butz.add(\StartupFile, { StartupFile.dialog });
+Butz.add(\StartupDial, { StartupFile.dialog });
 Butz.addMiniMax;
 
 Butz.add(\SCENES, { WinBounds.showOrMake('SCENES') });
