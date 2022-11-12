@@ -7,7 +7,7 @@ Window.find(\spatio).view.onResize = {
 
 
 (
-Butz.add(\spatio, { WinBounds.showOrMake(\spatio) });
+Butz(\poly).add(\spatio, { WinBounds.showOrMake(\spatio) });
 
 q.pos.colors = q.pos.micGroups.size.collect { |i| Color.hsv(i/q.pos.micGroups.size, 0.7, 0.8) };
 
@@ -373,7 +373,7 @@ q.pos.drawMap = { |pos, remake = false|
 	q.pos.uv.refresh;
 };
 
-Butz.run(\spatio);
+Butz(\poly).run(\spatio);
 
 ////// draw maps on spatioScope:
 /*

@@ -1,13 +1,13 @@
 //// set up left hand button shortcuts:
-Butz.clear;
+// Butz.clear;
 Butz.numButz = 24;
-Butz.style.winExtent.x = 120;
+Butz.style.winExtent.x = 100;
 Butz.style.font = Font("Futura", 16);
 Butz.style.midfont = Font("Futura", 20);
 Butz.style.bigfont = Font("Futura", 25);
 
 Butz.makeWin;
-Butz.w.layout.margins_(4);
+Butz.w.layout.margins_(1);
 Butz.w.layout.spacing_(0@0);
 
 // put this func on all Windows,
@@ -65,6 +65,21 @@ g.tuneNameView(PdefAllGui(4));
 */
 );
 
+
+Butz.addMiniMax;
+Butz.add(\StartupDial, { StartupFile.dialog });
+Butz.add(\poly, { Butz.curr_(\poly) });
+
+Butz(\poly).addMiniMax;
+
+[
+	\ndefmix,
+	'MainFX',
+	\tdefall,
+	\pdefall,
+	'TESTS',
+].do (Butz.add(_));
+
 [
 	\StartupDial,
 	\SCENES,
@@ -74,26 +89,16 @@ g.tuneNameView(PdefAllGui(4));
 	\MTP_Resons,
 	\ndefmix,
 	'MainFX',
-	\tdefall,
-	\pdefall,
 	'restoreAll',
 	'TESTS',
 	\save_scene,
 	\drawMap,
 	\ChordPlayer,
 	\chord_explo,
-].do (Butz.add(_));
+].do (Butz(\poly).add(_));
+
 
 Butz.show;
-Butz.add(\StartupDial, { StartupFile.dialog });
-Butz.addMiniMax;
-
-Butz.add(\SCENES, { WinBounds.showOrMake('SCENES') });
-// WinBounds.addMake(\SCENES) is defined later
-
-// MTP_... added later
-// globalXY added later
-// ndefmix added later
 
 Butz.add(\tdefall, { WinBounds.showOrMake('Tdef.all') });
 WinBounds.addMake('Tdef.all', {
@@ -111,12 +116,21 @@ WinBounds.addMake('Pdef.all', {
 	q.pdagui.parent
 });
 
-Butz.add(\drawMap, { WinBounds.showOrMake('drawMap') });
+Butz(\poly).add(\SCENES, { WinBounds.showOrMake('SCENES') });
+// WinBounds.addMake(\SCENES) is defined later
+
+// MTP_... added later
+// globalXY added later
+// ndefmix added later
+
+
+
+Butz(\poly).add(\drawMap, { WinBounds.showOrMake('drawMap') });
 WinBounds.addMake(\drawMap, { q.pos.drawMap(true) });
 
-Butz.add(\chord_explo, { (q.dir.poly +/+ "02b_explore_chords.scd").resolveRelative.openOS });
+Butz(\poly).add(\chord_explo, { (q.dir.poly +/+ "02b_explore_chords.scd").resolveRelative.openOS });
 
-Butz.add(\save_scene, { MFdef(\saveStr).value });
+Butz(\poly).add(\save_scene, { MFdef(\saveStr).value });
 
 MFdef(\saveStr).add(\save, {
 	var date = Date.getDate.stamp;

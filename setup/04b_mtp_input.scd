@@ -155,8 +155,8 @@ MTP.keydownDict[$t] = { WinBounds.showOrMake('Tdef.all') };
 MTP.keydownDict[$p] = { WinBounds.showOrMake('Pdef.all') };
 
 MTP.keydownDict[$T] = { WinBounds.showOrMake('TESTS') };
-MTP.keydownDict[$C] = { Butz.run('ChordPlayer') };
-MTP.keydownDict[$k] = { Butz.run('nanoK2') };
+MTP.keydownDict[$C] = { Butz(\poly).run('ChordPlayer') };
+MTP.keydownDict[$k] = { Butz(\poly).run('nanoK2') };
 
 MTP.infoText.clear.addAll([
 	"space: play, dot: stop",
@@ -281,7 +281,7 @@ MFdef(\noyzResons).add('switch', {
 };
 });
 
-Butz.add(\MTP_MicIns, MFdef(\noyzMicIns));
-Butz.add(\MTP_Resons, MFdef(\noyzResons));
+Butz(\poly).add(\MTP_MicIns, MFdef(\noyzMicIns));
+Butz(\poly).add(\MTP_Resons, MFdef(\noyzResons));
 
 );

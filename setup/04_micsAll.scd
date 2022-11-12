@@ -145,8 +145,8 @@ WinBounds.addMake(\globalXY, {
 	}
 });
 
-Butz.add(\globalXY, { WinBounds.showOrMake(\globalXY) });
-Butz.run(\globalXY);
+Butz(\poly).add(\globalXY, { WinBounds.showOrMake(\globalXY) });
+Butz(\poly).run(\globalXY);
 
 //////// now the few-to-many mic scaleup:
 //// catch pan values to show them

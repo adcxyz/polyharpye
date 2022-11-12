@@ -39,7 +39,7 @@ q.chords.curr = q.chords.chords.gmspiral2;
 
 // play its notes from a KeyPlayer
 // 46 fits exactly!
-Butz.add(\ChordPlayer, { WinBounds.showOrMake(\chordPlayer) });
+Butz(\poly).add(\ChordPlayer, { WinBounds.showOrMake(\chordPlayer) });
 WinBounds.addMake(\chordPlayer, { k.gui.parent.name_(\chordPlayer) });
 
 (

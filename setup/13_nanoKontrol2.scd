@@ -12,12 +12,12 @@ MKtl(\nanoK2).gui;
 // S 5 6 7 8,
 // M 5 6 7 8,
 
-Butz.add(\nanoK2, { WinBounds.showOrMake(\nanoK2) });
+Butz(\poly).add(\nanoK2, { WinBounds.showOrMake(\nanoK2) });
 WinBounds.addMake(\nanoK2, {
 	MKtl(\nanoK2).gui.parent;
 });
 
-// Butz.add('END', { q.ndef[\Sounds].do(_.end(5)); });
+// Butz(\poly).add('END', { q.ndef[\Sounds].do(_.end(5)); });
 
 MKtl(\nanoK2).elAt(\bt, \S, 0).elemDesc;
 
@@ -39,7 +39,7 @@ MKtl(\nanoK2).elAt(\tr).flat.keep(4).do { |el, scaleIndex|
 	el.action = { |el|
 		if (el.isOn) {
 			defer {
-				Butz.run(scaleNames[scaleIndex].postcs);
+				Butz(\poly).run(scaleNames[scaleIndex].postcs);
 			};
 		};
 	};
