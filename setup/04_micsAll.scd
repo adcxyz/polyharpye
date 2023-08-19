@@ -159,9 +159,11 @@ OSCdef(\xybase, { |msg|
 	q.xy.xybase = msg.drop(3);
 },'/xybase').permanent_(true);
 
+Spec.add(\gain, [0, 4, \amp]);
 Ndef(\Pa_micIns).clear;
 Ndef(\Pa_micsMax).clear;
-Ndef(\Pa_micIns, { SoundIn.ar((0.. q.numMics-1)) });
+Ndef(\Pa_micIns).addSpec(\gain, \gain);
+Ndef(\Pa_micIns, { |gain=1| SoundIn.ar((0.. q.numMics-1)) * gain.lag(0.3) });
 
 Ndef(\Pa_micsMax).addSpec(\gain, [0, 4, \amp]);
 
