@@ -2,6 +2,8 @@
 // a dict for all mtp things
 q.mtp = q.mtp ? ();
 
+~mtpAmp = 0.5;
+
 // make sure MTP will find its tongsengmod binary
 MTP.progpath = q.dir.poly.dirname +/+ "binaries";
 
@@ -219,7 +221,7 @@ MFdef(\noyzMicIns).add('switch', {
 		q.mtp.vcMic.put(curID, [
 			\freq, (xys[0]).linexp(0, 1, 30, 3000),
 			\reso, xys[1].linexp(0, 1, 5, 100),
-			\amp, xys[2].squared,
+			\amp, xys[2].squared * ~mtpAmp,
 			\pan, xys[0] * 2 - 1,
 		]);
 	};
@@ -250,7 +252,7 @@ MFdef(\noyzResons).add('switch', {
 		q.mtp.vcRes.put(curID, [
 			\freq, exprand(100, 3000), // (xys[0]).linexp(0, 1, 30, 3000),
 			\reso, 3, // xys[1].linexp(0, 1, 5, 100),
-			\amp, xys[2].squared * 2,
+			\amp, xys[2].squared * 2 * ~mtpAmp,
 			\panx, xys[0] - 0.5 * 19 - 0.1,
 			\pany, xys[1] - 0.5 * -19 + 0.7,
 			\panrad, xys[2].linlin(0.6, 6, 0.2, 1)
@@ -273,7 +275,7 @@ MFdef(\noyzResons).add('switch', {
 	// [metx, mety].round(0.01).postln;
 
 	q.mtp.vcRes.setAt(curID, *[
-		\amp, xys[2].squared * 0.5,
+		\amp, xys[2].squared * 0.5 * ~mtpAmp,
 		\panx, metx,
 		\pany, mety,
 		\panrad, metrad
