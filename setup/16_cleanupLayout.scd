@@ -18,7 +18,7 @@ WinBounds.stored.putAll( (
 	'globalXY': Rect(698.0, 0.0, 560.0, 180.0),
 	'MTP': Rect(137.0, 0.0, 502.0, 172.0),
 
-	'ndefmix': Rect(936.0, 105.0, 682.0, 491.0),
+	'ndefmix': Rect(740.0, 94.0, 806.0, 491.0),
 	'Tdef.all': Rect(135.0, 651.0, 274.0, 354.0),
 	'Pdef.all': Rect(290.0, 650.0, 274.0, 354.0),
 	'MasterFX': Rect(1158.0, 205.0, 520.0, 800.0),

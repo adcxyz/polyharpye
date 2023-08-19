@@ -9,12 +9,12 @@ Butz(\poly).add(\ndefmix, { WinBounds.showOrMake('ndefmix') });
 WinBounds.addMake(\ndefmix, {
 	try { q.mixwin.close };
 
-	q.mixwin = Window(\ndefmix, Rect(103.0, 146.0, 680.0, 440)).front;
+	q.mixwin = Window(\ndefmix, Rect(700, 94.0, 806.0, 491.0)).front;
 	q.mixwin.addFlowLayout;
 	q.ndef.groupNames = [\NTMI, \Sounds, \top8, \Mics, \All, \Outs, \Perms ];
 
 	q.mixbuts = q.ndef.groupNames.collect { |name, i|
-		Button(q.mixwin, 80@24).font_(Butz.style.midfont)
+		Button(q.mixwin, 60@24).font_(Butz.style.midfont)
 		.states_([[ name, Color.white, Color.grey ], [ name, Color.white, Color.red(0.8) ]])
 		.action_(MFdef('mixBut'));
 	};
