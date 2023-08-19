@@ -1,14 +1,20 @@
 //// set up left hand button shortcuts:
-// Butz.clear;
-Butz.numButz = 24;
-Butz.style.winExtent.x = 100;
-Butz.style.font = Font("Futura", 16);
-Butz.style.midfont = Font("Futura", 20);
-Butz.style.bigfont = Font("Futura", 25);
+//// remake butz window
+Task({
+	1.wait;
+	Butz.numButz = 20;
+	Butz.style.winExtent.x = 100;
+	Butz.style.font = Font("Futura", 16);
+	Butz.style.midfont = Font("Futura", 20);
+	Butz.style.bigfont = Font("Futura", 25);
 
-Butz.makeWin;
-Butz.w.layout.margins_(1);
-Butz.w.layout.spacing_(0@0);
+	Window.allWindows.do { |w| if ((w.name == "Butz")) { w.close } };
+	0.5.wait;
+	Butz.show;
+	Butz.w.layout.margins_(1);
+	Butz.w.layout.spacing_(0@0);
+}).play(AppClock);
+
 
 // put this func on all Windows,
 /// so you can navigate everywhere by shortcuts
@@ -98,8 +104,6 @@ Butz(\poly).addMiniMax;
 ].do (Butz(\poly).add(_));
 
 
-Butz.show;
-
 Butz.add(\tdefall, { WinBounds.showOrMake('Tdef.all') });
 WinBounds.addMake('Tdef.all', {
 	q.tdagui = TdefAllGui(16);
@@ -108,6 +112,7 @@ WinBounds.addMake('Tdef.all', {
 });
 
 Butz.add(\MainFX, { WinBounds.showOrMake('MainFX') });
+Butz(\poly).add(\MainFX, { Butz.run('MainFX') });
 
 Butz.add(\pdefall, { WinBounds.showOrMake('Pdef.all') });
 WinBounds.addMake('Pdef.all', {
