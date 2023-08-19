@@ -193,14 +193,18 @@ Task({
 		/// Venezia startup here!
 		LoadMe("/Users/adc/Desktop/Rossi_Venezia/Rossi_Venezia.scd");
 
-		0.5.wait;
-		Window.find("PRESETS").close;
 
-		defer { try { q.mixer.switchSize(2) } };
+		2.wait;
+
+
+
+		defer {
+			Window.find("PRESETS").close;
+			try { q.mixer.switchSize(2) };
+			MFdef(\showScaleNotes).value;
+		};
 
 		Ndef(\Pz_grid).vol_(0.6);
-		// 0.5.wait;
-		// LoadMe("/Users/adc/Seafile/xConnect/code/MusicOnASimWire4_work.scd");
 
 		LoadMe.end;
 
