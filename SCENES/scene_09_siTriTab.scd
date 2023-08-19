@@ -4,17 +4,17 @@ name: \siTriTab,
 // scaleName: \major,
 onNdefs:  [
 	(ndef: Ndef(\Ph_sitar1),
-		vol: 0.25,
+		vol: 0.5,
 		netIndex: [0, 5, 9],
 		// netIndex: (0, 2..16)+1,
 		settings: [\detune, -12]
 	),
 	(ndef: Ndef(\Ph_triangul),
-		vol: 0.25,
+		vol: 0.5,
 		netIndex: [6]
 	),
 	(ndef: Ndef(\Ph_tabloid),
-		vol: 0.25,
+		vol: 0.5,
 		netIndex: [7, 8]
 	),
 	// (ndef: Ndef(\Ph_verb),

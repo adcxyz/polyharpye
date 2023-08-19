@@ -4,7 +4,7 @@ name: \Tabloid,
 // scaleName: \hungarianMinor,
 onNdefs:  [
 	(ndef: Ndef(\Ph_tabloid),
-		vol: 0.6,
+		vol: 0.5,
 		netIndex: q.pos.allNets
 	)
 ])

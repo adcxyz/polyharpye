@@ -42,7 +42,7 @@ Ndef(\Ph_triangul, { |maxring = 16|
 
 		snd = DynKlank.ar(`[
 			freqs,
-			[0.04, 0.04, -0.04, -0.04 ].wrapExtend(freqs.size),
+			([1, 1, -1, -1 ] * 0.01).wrapExtend(freqs.size),
 			decays
 			],
 			noize*env + RHPF.ar(snd, 85.midicps)

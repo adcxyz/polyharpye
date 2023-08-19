@@ -22,7 +22,7 @@ Ndef(\Ph_tabloid, {|amp = 1.0, decayScale = 1.2, transpose = 0, hpfreq = 200, wh
 		Ndef(\scale).bus.getnSynchronous[indices].round(0.001));
 
 	var amps = (Ndef(\Ph_ropeTrigs).kr[indices].lag2ud(0, 0.2) - 0.01).clip(0, 0.5);
-	var inputs = RHPF.ar(Ndef(\Pa_micsAll).ar()[indices] * 0.1, hpfreq, 0.7);
+	var inputs = RHPF.ar(Ndef(\Pa_micsAll).ar()[indices] * 0.05, hpfreq, 0.7);
 	var inputs2 = inputs * (0.4 * blend(1, GrayNoise.ar, whiten));
 	var freqs =  (Ndef(\scale).kr[indices] + transpose.lag(1)).midicps;
 	var freqs2 =  freqs * (amps * amp2pitch + 1);
