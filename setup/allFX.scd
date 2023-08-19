@@ -75,7 +75,10 @@ ProxyChain.add3( '0_DBComp',
 		DualBandComp.ar(
 			in * mainVol.lag(0.2),
 			xFreq, loGain,  hiGain, thresh, compRatio
-		)
+		);
+		// emergency bypass until DualBandComp works on current M1
+		in * mainVol.lag(0.2)
+
 	},
 	1,
 	[
