@@ -79,11 +79,14 @@ Butz.add(\poly, { Butz.curr_(\poly) });
 Butz(\poly).addMiniMax;
 
 [
+
 	\ndefmix,
 	'MainFX',
 	\tdefall,
 	\pdefall,
 	'TESTS',
+	\meter,
+	\scope
 ].do (Butz.add(_));
 
 [
@@ -102,6 +105,26 @@ Butz(\poly).addMiniMax;
 	\ChordPlayer,
 	\chord_explo,
 ].do (Butz(\poly).add(_));
+
+
+
+
+Butz.add(\meter, { WinBounds.showOrMake(\meter) });
+WinBounds.addMake(\meter, {
+	var meterwin;
+	s.meter;
+	meterwin = Window.find("localhost");
+	meterwin.moveTo(20, 20);
+	meterwin.name = \meter;
+});
+Butz.add(\scope, { WinBounds.showOrMake(\scope) });
+WinBounds.addMake(\scope, {
+	var scopewin;
+	s.scope;
+	scopewin = Window.find("Stetho");
+	scopewin.moveTo(280, 20);
+	scopewin.name = \scope;
+});
 
 
 Butz.add(\tdefall, { WinBounds.showOrMake('Tdef.all') });
