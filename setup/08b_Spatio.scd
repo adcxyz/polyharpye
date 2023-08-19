@@ -87,6 +87,14 @@ MFdef('drawSpat').add(\drawGroups, { |uv|
 });
 );
 
+MFdef(\showScaleNotes).add(\calcAndShow, {
+	var midinotes = (q.getScale.round + Ndef(\scale).get(\base));
+	var notenames = midinotes.collect { |midinote, i| q.toNote(midinote) };
+
+	// [ midinotes, notenames ].flop.printAll;
+	notenames.do { |notename, i| q.spat.ampViews[i].string = notename };
+});
+
 
 WinBounds.addMake(\spatio, {
 	var name = \spatio;
@@ -255,6 +263,8 @@ WinBounds.addMake(\spatio, {
 		.postf(indices, [x, y], mod)
 	};
 	q.spat = spat;
+
+	MFdef(\showScaleNotes).value;
 
 	q.spat.clickAction = { |indices, x, y, mod|
 		var pitches;

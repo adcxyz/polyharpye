@@ -103,6 +103,19 @@ q.chords.golden.chord2.round(0.001).postln;
 
 */
 
+q.notenames = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B" ];
+q.toNote = { |q, midinote|
+	midinote = midinote.round.asInteger;
+	q.notenames.wrapAt(midinote) ++ (midinote div: 12);
+};
+
+/*
+q.notenames.wrapAt(28);
+q.toNote(60.0);
+q.toNote(60.51);
+q.toNote(60.51);
+*/
+
 // SCALES:
 // function to make a repeatable random major scale distribution
 // q.makeScale = { |q, seed|
