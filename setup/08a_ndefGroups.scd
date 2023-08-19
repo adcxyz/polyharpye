@@ -7,19 +7,20 @@
 
 **** call current setup file!
 
-MFdef(\hideNdefs).(q.ndef[\Mics]);
-MFdef(\showNdefs).(q.ndef[\Mics]);
+MFdef(\hideNdefs).(q.ndef.groups[\Mics]);
+MFdef(\showNdefs).(q.ndef.groups[\Mics]);
 */
 
 NdefPreset.all.do(_.loadSettings);
 Ndef.all.localhost.do(_.fadeTime = 1);
 
 q.ndef = q.ndef ? ();
+q.ndef.groups = q.ndef.groups ? ();
 
-q.ndef[\All] = Ndef.dictFor(s);
+q.ndef.groups[\All] = Ndef.dictFor(s);
 
 // all real, expanded and simulated mic inputs
-q.ndef[\Mics] = [
+q.ndef.groups[\Mics] = [
 	Ndef('Pa_micIns'),
 	Ndef('Pa_micsAll'),
 	Ndef('Pa_micsMax'),
@@ -29,14 +30,14 @@ q.ndef[\Mics] = [
 ];
 
 // all outputs are always playing
-q.ndef[\Outs] = [
+q.ndef.groups[\Outs] = [
 	Ndef('Pz_ins2Spk'),
 	Ndef('Pz_grid'),
 	// Ndef(\Pz_sub),
 ];
 
 ////// ALL THE SOUND THAT CAN PLAY:
-q.ndef[\Sounds] = [
+q.ndef.groups[\Sounds] = [
 	/// the faves
 	Ndef('Ph_sitar1'),
 	Ndef('Ph_tabloid'),
@@ -64,10 +65,10 @@ q.ndef[\Sounds] = [
 ];
 
 // the top8 we want on 8chan controllers:
-q.ndef.top8 = q.ndef[\Sounds].keep(8);
+q.ndef.top8 = q.ndef.groups[\Sounds].keep(8);
 
 // necessary running but non-playing silent ndefs:
-q.ndef[\Perms] = [
+q.ndef.groups[\Perms] = [
 	Ndef('Pa_micIns'),
 	Ndef('Pa_micsAll'),
 	Ndef('Pa_micsMax'),
@@ -87,18 +88,18 @@ q.ndef[\Perms] = [
 	Ndef(\Pz_mainCopy)
 ];
 
-q.ndef[\Sounds].do(_.end(0));
+q.ndef.groups[\Sounds].do(_.end(0));
 try { s.sync };
 
-q.ndef[\Sounds].do(_.vol_(0.25));
+q.ndef.groups[\Sounds].do(_.vol_(0.25));
 
-q.ndef[\Outs].do(_.vol_(0.2));
+q.ndef.groups[\Outs].do(_.vol_(0.2));
 
 q.ndef.unknown = Ndef.all[s.name].as(Array).removeAll([
-	q.ndef[\Mics],
-	q.ndef[\Sounds],
-	q.ndef[\Outs],
-	q.ndef[\Perms],
+	q.ndef.groups[\Mics],
+	q.ndef.groups[\Sounds],
+	q.ndef.groups[\Outs],
+	q.ndef.groups[\Perms],
 ].flat);
 
 if (q.ndef.unknown.size > 0) {
@@ -112,7 +113,7 @@ ServerTree.add(MFdef(\wakeUp), s);
 
 MFdef(\wakeUp).add(\perms, {
 	"wakeUp perms".postln;
-	q.ndef[\Perms].do { |ndef|
+	q.ndef.groups[\Perms].do { |ndef|
 		ndef.stop.resume.wakeUp;
 		// wait works, sync does not ???
 		0.08.wait;
@@ -122,7 +123,7 @@ MFdef(\wakeUp).add(\perms, {
 });
 
 MFdef(\wakeUp).add(\outs, {
-	q.ndef[\Outs].do { |ndef|
+	q.ndef.groups[\Outs].do { |ndef|
 		ndef.resume.play;
 		0.05.wait;
 	};

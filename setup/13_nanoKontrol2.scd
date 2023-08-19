@@ -17,7 +17,7 @@ WinBounds.addMake(\nanoK2, {
 	MKtl(\nanoK2).gui.parent;
 });
 
-// Butz(\poly).add('END', { q.ndef[\Sounds].do(_.end(5)); });
+// Butz(\poly).add('END', { q.ndef.groups[\Sounds].do(_.end(5)); });
 
 MKtl(\nanoK2).elAt(\bt, \S, 0).elemDesc;
 
@@ -93,7 +93,7 @@ MKtl(\nanoK2).elAt(\tr, \cycle).action = { |bt|
 
 
 // top 8 sounds to toggle directly:
-q.ndef.top8.do { |ndf, i|
+q.ndef.groups.top8.do { |ndf, i|
 	var ndefname = ndf.key.asString.drop(3).keep(4);
 	// slider softsets vol and pauses when 0
 	MKtl(\nanoK2).elAt(\sl, i).elemDesc.label = ndefname ++ " vol";

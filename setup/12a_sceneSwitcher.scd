@@ -65,7 +65,7 @@ MFdef(\sceneSwitch).value( (scaleName: \minor, scaleSeed: 1234.rand, fadeTime: 1
 */
 
 MFdef(\sceneSwitch).add(\ons, { |newdict|
-	var offNdefs = q.ndef[\Sounds].copy;
+	var offNdefs = q.ndef.groups[\Sounds].copy;
 	forkIfNeeded {
 		newdict[\onNdefs].do { |ndefdict|
 			offNdefs.remove(ndefdict.ndef);

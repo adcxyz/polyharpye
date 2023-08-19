@@ -115,7 +115,7 @@ WinBounds.addMake(\spatio, {
 			MFdef(\selectScene).value(pop.item.postln);
 	}, labelHeight: 20, layout: \vert);
 	var soundPop = EZPopUpMenu(w, Rect(5, 55, 100, 50),
-		"Sounds:", q.ndef[\Sounds].collect(_.key), { |pop|
+		"Sounds:", q.ndef.groups[\Sounds].collect(_.key), { |pop|
 			MFdef(\selectNdef).value(pop.item.postln);
 	}, labelHeight: 20, layout: \vert);
 
@@ -209,7 +209,7 @@ WinBounds.addMake(\spatio, {
 				q.soundPop.widget.background_(Color.grey(0.8));
 
 				firstLayer !? {
-					ndefIndex = q.ndef[\Sounds].indexOf(firstLayer.ndef);
+					ndefIndex = q.ndef.groups[\Sounds].indexOf(firstLayer.ndef);
 					ndefIndex !? { q.soundPop.value = ndefIndex }
 			} };
 
