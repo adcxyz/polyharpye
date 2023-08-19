@@ -92,14 +92,15 @@ try { s.sync };
 // common delaytime for all chans keeps panning image,
 // individual delaytimes make acoustic feedback more lively
 
-Ndef('Pz_grid', { |hpfreq = 20, amp = 1.0, limit = 0.5, driftRate = 0.1, driftdepth = 1|
+Ndef('Pz_grid', { |hpfreq = 20, amp = 1.0, limit = 0.5, driftRate = 0.1, driftdepth = 0.1|
 	var gridIns = Ndef('Pz_ins2Spk').ar; // q.numSpks
 	var gridOuts = gridIns * (q.numSpks * 2 / q.numResons * amp.lag(1.0));
 	var maxDelay = 0.01; // 10 msec
 	var commonDelayTime;
 
 	gridOuts = RHPF.ar(gridOuts, hpfreq.lag(1), 0.7);
-	gridOuts = Limiter.ar(gridOuts, limit, 0.005);
+	// gridOuts = Lim-iter.ar(gridOuts, limit, 0.005);
+	gridOuts = (gridOuts).tanh;
 
 	//// antifeedback phase shift -
 	driftRate = driftRate.lag(1);

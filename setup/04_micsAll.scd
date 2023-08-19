@@ -278,12 +278,17 @@ Ndef(\Pa_micsAll).addSpec(\simPluck, [0, 1, \amp]);
 Ndef(\Pa_micsAll).addSpec(\simRub, [0, 1, \amp]);
 
 /// add simulation inputs
-Ndef(\Pa_micsAll, {|amp = 0.5, limit = 0.9, simPluck = 0.0, simRub = 0.0|
+Ndef(\Pa_micsAll, {|amp = 0.5, simPluck = 0.0, simRub = 0.0|
 	var snd = Ndef(\Pa_micsMax).ar;
 	var simPluckSnd = PinkNoise.ar(simPluck) * Decay.ar(Dust2.ar(1!q.numResons), 0.1);
 	var simRubSnd = (GrayNoise.ar(simRub) * LFDNoise3.kr(0.3 ! q.numResons).range(1, -5).max(0));
 
-	// no limiter here, just sum:
-	Limiter.ar(snd + simPluckSnd + simRubSnd, limit);
+	// no limiting here, just sum:
+	var allSnds = (snd + simPluckSnd + simRubSnd);
+
+	// was Lim---iter.ar(allSnds, limit);
+	// but tanh adds no latency and makes inputs brighter when very loud
+	allSnds.tanh;
+
 });
 
