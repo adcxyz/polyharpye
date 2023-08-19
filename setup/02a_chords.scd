@@ -110,7 +110,8 @@ q.chords.golden.chord2.round(0.001).postln;
 // };
 // can now pass in scale name - distro is still by randSeed
 
-q.makeScale = { |q, seed, scaleName = \major, lowest = -3, highest = 2|
+
+q.makeScale = { |q, seed, scaleName = \major, lowest = -3, highest = 2, tuning|
 	var numNotes = q.numResons;
 	///////  good balanced set of octaves, for sitar, tabla etc
 	// var octaves = [-2, -1, 0, 0, 0, 1, 1, 2, 2].clip(lowest, highest);
@@ -125,9 +126,28 @@ q.makeScale = { |q, seed, scaleName = \major, lowest = -3, highest = 2|
 		)
 	}.valueSeed(seed);
 };
+
+
+q.makeScale2 = { |q, seed, degrees, lowest = -3, highest = 2|
+	var numNotes = q.numResons;
+	///////  good balanced set of octaves, for sitar, tabla etc
+	// var octaves = [-2, -1, 0, 0, 0, 1, 1, 2, 2].clip(lowest, highest);
+	///////  toy piano range for opening night and TS default
+	var octaves = [-3, -2, -1, -1, 0, 0, 1, 2].clip(lowest, highest);
+	var octShifts = octaves * 12;
+	// [-12, -12, 0, 0, 0, 12, 12, 24, 24]
+	{
+		(
+			degrees.wrapExtend(numNotes).scramble
+			+ octShifts.wrapExtend(numNotes).scramble
+		).postln;
+	}.valueSeed(seed);
+};
+
 /*
 /////// make one for cologneliness
-q.makeScale(4711, \major);
+
+q.setScale(q.makeScale(4711, \major));
 // the current scale
 "\n\n*** q.getScale is: %\n\n".postf(q.getScale);
 */
