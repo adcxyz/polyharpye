@@ -1,88 +1,52 @@
 
 
-"*** Polyharpye loadMe file.\n".postln;
-
-// global storage
-q = q ? ();
-q.dir = q.dir ? ();
-q.dir.poly = thisProcess.nowExecutingPath.dirname;
-
-////////////////////////////////////////////////////////////
-"***** GLOBAL SETUP things first: ******".postln;
-
-// could already be set in startup file:
-q.numMics = q.numMics ? 6;
-q.numSpks = q.numSpks ? 2;
-q.randSeed = q.randSeed ? 666;
-
-q.numResons = 46; // same as numNotes, numPseudoMics
-q.lastReson = q.numResons - 1;
-
-Ndef.defaultReshaping = nil;
-
-
-///////// LOAD ALL CODE FILES IN TASKS, with posting:
-
-//////// loads local or absolute filenames or paths,
-// embeds into with wait time and posted load time info:
-q.load = { |q, filename, here, wait = 0.05, dirsup = 0, preText = "", postText = ""|
-	var paths, path;
-	if (filename.isNil) { warn("q.load: path was nil!") } {
-
-		path = filename.standardizePath;
-		if (path[0].isPathSeparator.not) {
-			here = here ? q.dir.poly;
-			dirsup.do { here = here.dirname };
-			path = (here +/+ path);
-		};
-
-		paths = path.pathMatch;
-
-		forkIfNeeded ({
-			var loadDur, t0 = Main.elapsedTime;
-
-			if (paths.size == 0) { "*** no files found for % :\n".postf(path.cs) };
-
-			if (paths.size > 1) { "****** % matching files for % :\n".postf(paths.size, path.cs) };
-
-			paths.do { |path|
-				"*** loading % : %".postf(path.basename, preText);
-				path.load;
-				if (s.serverRunning) { try { s.sync } };
-				loadDur = (Main.elapsedTime - t0).round(0.001);
-				" % secs. %\n".postf(loadDur, postText);
-				wait.wait;
-			};
-
-			"";
-		}, AppClock)
-	};
-};
-
-// measure startup load time
-q.startedTime = Main.elapsedTime;
 
 Task({
+	0.1.wait;
+	LoadMe.start;
+
+	"*** Polyharpye loadMe file.\n".postln;
+
+	// global storage
+	q = q ? ();
+	q.dir = q.dir ? ();
+	q.dir.poly = thisProcess.nowExecutingPath.dirname;
+
+	////////////////////////////////////////////////////////////
+	"***** GLOBAL SETUP things first: ******".postln;
+
+	// could already be set in startup file:
+	q.numMics = q.numMics ? 6;
+	q.numSpks = q.numSpks ? 2;
+	q.randSeed = q.randSeed ? 666;
+
+	q.numResons = 46; // same as numNotes, numPseudoMics
+	q.lastReson = q.numResons - 1;
+
+	Ndef.defaultReshaping = nil;
+
+	q.ndefGroups = q.ndefGroups ? ();
+
 	////// soft check for present quarks
-	q.load("007_checkQuarks.scd");
+	LoadMe("007_checkQuarks.scd");
 
 	// the number of the beast
 	thisThread.randSeed = q.randSeed;
 
 	if (s.serverRunning.not) {
-		q.load("01_serverSetup.scd");
+		LoadMe("01_serverSetup.scd");
 		// Server.scsynth;
 		"*** server uses %.\n".postf(Server.program.basename);
 	};
 
 	"*** q.numMics: %\n".postf(q.numMics);
 
-	q.load("allFX.scd");
+	LoadMe("allFX.scd");
 
-	q.load("01a_synthdefs.scd");
-	q.load("01b_positions.scd");
-	q.load("01c_butz.scd");
-	q.load("01d_ndefmix.scd");
+	LoadMe("01a_synthdefs.scd");
+	LoadMe("01b_positions.scd");
+	LoadMe("01c_butz.scd");
+	LoadMe("01d_ndefmix.scd");
 
 
 	////// SET SPEAKER POSITIONS - must be one of:
@@ -90,13 +54,12 @@ Task({
 	// q.pos.spks = q.pos.aula * 0.8;
 	// q.pos.spks = q.pos.caeiros * 2;
 	q.pos.spks = q.pos.caeiros * 2;
-	// q.pos.spks = q.pos.head * 2;
+	q.pos.spks = q.pos.head * 2;
 
 	////// supernova: set max numOutputBusChannels correctly pe interface!
 	q.pos.spks = q.pos.spks.keep(s.options.numOutputBusChannels);
 	q.numSpks = q.pos.spks.size;
 	"q.numSpks: %.\n".postf(q.numSpks);
-
 
 	if (s.serverRunning.not) {
 		"booting server ...\n\n".postln;
@@ -111,94 +74,136 @@ Task({
 		"server already running, not booting ...\n\n".postln;
 	};
 
+	// load full setup when booted:
+	s.doWhenBooted {
+		var t0 = Main.elapsedTime;
+		if (s.serverRunning.not) {
+			"\n... server booted after % seconds.\n"
+			"Starting Setup:\n\n".postf(t0 - q.startedTime);
+		};
+
+		// wait for server interface to finish
+		0.1.wait;
+
+		q.pos.omnibus = Bus.audio(s, q.numResons);
+
+		// set a latency for loading only
+		s.latency = 0.1;
+		s.sync; 0.1.wait;
+
+		// make 8 parallel groups for ins, processing chains, outs
+		q.grp = q.grp ? ();
+		q.grpList = 8.collect { ParGroup.basicNew(s, s.nextPermNodeID) };
+
+		MFdef(\grpListSend).add(\send, {
+			s.sync;
+			q.grpList.do { |grp|
+				s.sendMsg(*grp.newMsg(s, \addToTail));
+			};
+			s.sync;
+			q.grpList.do(_.isPlaying_(true));
+			"*** q.grpList sent. ***".postln;
+		});
+		// do it once
+		MFdef(\grpListSend).value;
+
+		// and always remake them on boot, cmdPeriod etc
+		ServerTree.add( MFdef(\grpListSend), s);
+
+
+		(q.dir.poly +/+ "02*.scd").pathMatch.collect(_.basename);
+
+		LoadMe("02a_chords.scd");
+		LoadMe("02b_explore_chords.scd");
+		LoadMe("02c_testSounds.scd");
+
+		s.sync; 0.1.wait;
+
+		LoadMe("03_omnibus.scd");
+		LoadMe("04_micsAll.scd");
+
+		Platform.case(
+			// MultiTouchPad only runs on macOS, so we load MTP patch:
+			\osx, { LoadMe("04b_mtp_input.scd") }, {
+				// load single mousexy on window instead?
+				"MultiTouchPad - cannot run on %.".postf(thisProcess.platform.name)
+			}
+		);
+
+		LoadMe("04c_synths2Mics.scd");
+
+		LoadMe("06_ndefSwitch.scd");
+		LoadMe("06a_ropeTrigs.scd");
+
+		s.sync; 0.1.wait;
+
+		// all sounds are up one level:
+		LoadMe("07_snds/07*.scd", q.dir.poly.dirname);
+		"... snds loaded. \n\n".postln;
+
+		s.sync; 0.2.wait;
+
+
+
+		LoadMe("08a_ndefGroups.scd");
+		s.sync; 0.1.wait;
+
+		LoadMe("08b_Spatio.scd");
+
+		s.sync; 0.1.wait;
+
+		LoadMe("09*.scd");
+
+		s.sync; 0.1.wait;
+
+		LoadMe("11_makePresets.scd");
+
+		LoadMe("12a_sceneSwitcher.scd");
+
+		LoadMe("12b_sceneGui.scd");
+		s.sync; 0.1.wait;
+
+		LoadMe("13_nanoKontrol2.scd");
+		0.1.wait;
+
+		LoadMe("15_scaleButz.scd");
+		0.05.wait;
+
+		LoadMe("16_cleanupLayout.scd");
+
+		// // sitar, tabla, tringulz
+		q.scenes.buts[0].doAction;
+
+		s.sync; 0.1.wait;
+
+		Butz.run(\poly).showButs;
+
+		Ndef(\Pz_grid).play(vol: 0.25, fadeTime: 3);
+
+		q.mixbuts[1].valueAction_(1);
+
+		// fast response for MTP
+		s.latency = q.poly.latency ? 0.06;
+		s.volume = q.poly.volume ? -6;
+
+		Ndef('Ph_sitar1').set(\rq, 0.62);
+
+		"\n*** Polyharpye SETUP DONE in % seconds.\n\n".postf((Main.elapsedTime - t0).round(0.001));
+
+		/// Venezia startup here!
+		LoadMe("/Users/adc/Desktop/Rossi_Venezia/Rossi_Venezia.scd");
+
+		0.5.wait;
+		Window.find("PRESETS").close;
+
+		defer { try { q.mixer.switchSize(2) } };
+
+		Ndef(\Pz_grid).vol_(0.6);
+		// 0.5.wait;
+		// LoadMe("/Users/adc/Seafile/xConnect/code/MusicOnASimWire4_work.scd");
+
+		LoadMe.end;
+
+	};
+
 }, AppClock).play;
-
-// load full setup when booted:
-s.doWhenBooted {
-	var t0 = Main.elapsedTime;
-
-	"\n... server booted after % seconds.\n"
-	"Starting Setup:\n\n".postf(t0 - q.startedTime);
-
-	// wait for server interface to finish
-	0.1.wait;
-
-	q.pos.omnibus = Bus.audio(s, q.numResons);
-
-	// set a latency for loading only
-	s.latency = 0.1;
-	s.sync; 0.1.wait;
-
-	(q.dir.poly +/+ "02*.scd").pathMatch.collect(_.basename);
-
-	q.load("02a_chords.scd");
-	q.load("02b_explore_chords.scd");
-	q.load("02c_testSounds.scd");
-
-	s.sync; 0.1.wait;
-
-	q.load("03_omnibus.scd");
-	q.load("04_micsAll.scd");
-
-	Platform.case(
-		// MultiTouchPad only runs on macOS, so we load MTP patch:
-		\osx, { q.load("04b_mtp_input.scd") }, {
-			// load single mousexy on window instead?
-			"MultiTouchPad - cannot run on %.".postf(thisProcess.platform.name)
-		}
-	);
-
-	q.load("04c_synths2Mics.scd");
-
-	q.load("06_ndefSwitch.scd");
-	q.load("06a_ropeTrigs.scd");
-
-	s.sync; 0.1.wait;
-
-	// all sounds are up one level:
-	q.load("07_snds/07*.scd", q.dir.poly.dirname);
-	"... snds loaded. \n\n".postln;
-
-	s.sync; 0.2.wait;
-
-
-
-	q.load("08a_ndefGroups.scd");
-	s.sync; 0.1.wait;
-
-	q.load("08b_Spatio.scd");
-
-	s.sync; 0.1.wait;
-
-	q.load("09*.scd");
-
-	s.sync; 0.1.wait;
-
-	q.load("11_makePresets.scd");
-
-	q.load("12a_sceneSwitcher.scd");
-
-	q.load("12b_sceneGui.scd");
-	s.sync; 0.1.wait;
-
-	q.load("13_nanoKontrol2.scd");
-	0.1.wait;
-
-	q.load("15_scaleButz.scd");
-	0.05.wait;
-
-	q.load("16_cleanupLayout.scd");
-
-	// // sitar, tabla, tringulz
-	// q.scenes.buts[0].doAction;
-
-	s.sync; 0.1.wait;
-
-	Ndef(\Pz_grid).play(vol: 0.25, fadeTime: 3);
-
-	// fast response for MTP
-	s.latency = q.poly.latency ? 0.06;
-	s.volume = q.poly.volume ? -6;
-
-	"\n*** SETUP DONE in % seconds.\n\n\n".postf((Main.elapsedTime - t0).round(0.001));
-};
