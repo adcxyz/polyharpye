@@ -6,8 +6,8 @@ ServerOptions.devices.cs;
 //   just options
 
 // which server program?
-// Server.scsynth;
-Server.supernova;
+///// Server.scsynth;
+///// Server.supernova;
 "*** polypharpye sets server to: %\n\n".postf(Server.program.basename);
 
 // Safety(s).disable;

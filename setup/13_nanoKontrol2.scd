@@ -13,11 +13,8 @@ MKtl(\nanoK2).gui;
 // M 5 6 7 8,
 
 Butz(\poly).add(\nanoK2, { WinBounds.showOrMake(\nanoK2) });
-WinBounds.addMake(\nanoK2, {
-	MKtl(\nanoK2).gui.parent;
-});
+WinBounds.addMake(\nanoK2, { MKtl(\nanoK2).gui.showLabels.parent });
 
-// Butz(\poly).add('END', { q.ndef.groups[\Sounds].do(_.end(5)); });
 
 MKtl(\nanoK2).elAt(\bt, \S, 0).elemDesc;
 

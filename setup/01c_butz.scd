@@ -77,11 +77,13 @@ Butz.add(\StartupDial, { StartupFile.dialog });
 Butz.add(\poly, { Butz.curr_(\poly) });
 
 Butz(\poly).addMiniMax;
+Butz(\poly).add('fadeALL', { q.ndef.groups[\Sounds].do(_.end(5)); });
+
 
 [
 
 	\ndefmix,
-	'MainFX',
+	'mainFX',
 	\tdefall,
 	\pdefall,
 	'TESTS',
@@ -97,7 +99,7 @@ Butz(\poly).addMiniMax;
 	\MTP_MicIns, // collapse into single MTP button
 	\MTP_Resons,
 	\ndefmix,
-	'MainFX',
+	'mainFX',
 	'restoreAll',
 	'TESTS',
 	\save_scene,
@@ -134,8 +136,8 @@ WinBounds.addMake('Tdef.all', {
 	q.tdagui.parent
 });
 
-Butz.add(\MainFX, { WinBounds.showOrMake('MainFX') });
-Butz(\poly).add(\MainFX, { Butz.run('MainFX') });
+Butz.add(\mainFX, { WinBounds.showOrMake('mainFX') });
+Butz(\poly).add(\mainFX, { Butz.run('mainFX') });
 
 Butz.add(\pdefall, { WinBounds.showOrMake('Pdef.all') });
 WinBounds.addMake('Pdef.all', {
