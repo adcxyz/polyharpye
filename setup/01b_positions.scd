@@ -57,7 +57,7 @@ q.pos.groupCenters = q.pos.spiralGroups.collect { |name, val, i|
 	(-0.96 @ (-5.1 + i * 0.1))
 };
 
-////// HARPYES ARE twaeked for 65, likely fails for 46 !!!!!
+////// HARPYES ARE tweaked for 65, likely fails for 46 !!!!!
 // harpyes : based on hole patterns in concentric pentagons:
 // 1, 2, 3, 5, 8 holes from smallest to largest pentagon
 // 1.618 ** 4
@@ -258,6 +258,30 @@ q.pos.aula = [
 	[  0, 4 ],    // above, center back
 ];
 
+q.pos.tuBig = [
+	0.39,	3.61,
+	2.83,	3.11,
+	3.49,	0.0,
+	2.92,	-3.92,
+	0.19,	-4.67,
+	-2.1,	-3.86,
+	-2.85,	-0.0,
+	-2.88,	3.05,
+	0.0,	3.05,
+	2.5,	1.44,
+	2.5,	-1.44,
+	0.0,	-3.3,
+	-2.5,	-1.44,
+	-2.5,	1.44,
+	0.74,	1.27,
+	1.4,	0.0,
+	0.74,	-1.27,
+	-0.74,	-1.27,
+	-1.4,	-0.0,
+	-0.74,	1.27,
+	0.0,	0.0
+].clump(2);
+
 // in ligeti hall graz
 q.pos.mumuth = [
 	0, 0,
@@ -298,6 +322,8 @@ q.pos.mumuth = [
 	7.001, -5.384,
 	7.001, -12.563
 ].clump(2).keep(30) * 0.8;
+
+
 
 /// set speaker output mode to one of these ...
 q.pos.spks = q.pos.mumuth;
