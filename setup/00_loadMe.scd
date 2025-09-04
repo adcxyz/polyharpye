@@ -50,11 +50,13 @@ Task({
 
 
 	////// SET SPEAKER POSITIONS - must be one of:
-	// [ 'head', 'caeiros', 'aula', 'mumuth'  ]
+	// [ 'head', 'caeiros', 'aula', 'mumuth', 'tuBig'  ]
 	// q.pos.spks = q.pos.aula * 0.8;
 	// q.pos.spks = q.pos.caeiros * 2;
 	q.pos.spks = q.pos.caeiros * 2;
 	q.pos.spks = q.pos.head * 2;
+
+	q.pos.spks = q.pos.tuBig * 2;
 
 	////// supernova: set max numOutputBusChannels correctly pe interface!
 	q.pos.spks = q.pos.spks.keep(s.options.numOutputBusChannels);
@@ -191,7 +193,46 @@ Task({
 		"\n*** Polyharpye SETUP DONE in % seconds.\n\n".postf((Main.elapsedTime - t0).round(0.001));
 
 		/// Venezia startup here!
-		LoadMe("/Users/adc/Desktop/Rossi_Venezia/Rossi_Venezia.scd");
+		// "/Users/adc/projects/Rossi_Venezia/code/Rossi_Venezia.scd".openOS
+		// LoadMe("/Users/adc/projects/Rossi_Venezia/code/Rossi_Venezia.scd");
+
+		~mtpAmp = 1;
+		MKtl('nanoK2').elAt(\kn, 5).elemDesc.label = "mtpAmp";
+		MKtl('nanoK2').elAt(\kn, 5).action = { |kn|
+			~mtpAmp = (kn.value * 2).round(0.0001);
+			"~mtpAmp: %\n".postf(~mtpAmp);
+		};
+
+		MKtl('nanoK2').elAt(\kn, 6).elemDesc.label = "mics2Pol";
+		MKtl('nanoK2').elAt(\kn, 6).action = { |kn|
+			"mics2Poly: %\n".postf(kn.value.squared.ampdb.round(0.1));
+			Ndef('Pa_micIns').setUni(\gain, kn.value);
+		};
+
+		// Spec.add(\ntm2poly, \amp);
+		// Ndef(\Pa_micIns).put(5, \mix -> { |ntm2poly = 0|
+		// 	NTMI.slots.zz.collect(_.ar(1)) * ntm2poly
+		// });
+		//
+		//
+		// // not working yet
+		// MKtl('nanoK2').elAt(\kn, 6).elemDesc.label = "ntmi2Pol";
+		// MKtl('nanoK2').elAt(\kn, 6).action = { |kn|
+		// 	"NTM2Poly: %\n".postf(kn.value.squared.round(0.0001));
+		// 	Ndef(\Pa_micIns).setUni(\ntm2poly, kn.value);
+		// };
+
+		// hard volume,
+		~volspec = [-90, 6, \db].asSpec;
+		MKtl('nanoK2').elAt(\kn, 7).elemDesc.label = "main Vol";
+		// MKtl('nanoK2').elAt(\kn, 7).action = { |kn|
+		// 	s.volume = ~volspec.map(kn.value.postln);
+		// };
+
+		MKtl('nanoK2').elAt(\sl, 7).elemDesc.label = "poly Vol";
+		MKtl('nanoK2').elAt(\sl, 7).action = { |el|
+			Ndef(\Pz_grid).vol_(el.value.squared);
+		};
 
 
 		2.wait;
