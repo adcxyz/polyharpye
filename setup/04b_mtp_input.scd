@@ -2,7 +2,8 @@
 // a dict for all mtp things
 q.mtp = q.mtp ? ();
 
-~mtpAmp = 0.5;
+~mtpAmp = 1;
+~mtpRad = 0.5;
 
 // make sure MTP will find its tongsengmod binary
 MTP.progpath = q.dir.poly.dirname +/+ "binaries";
@@ -28,7 +29,7 @@ SynthDef(\noyzResons, { |out, amp = 0.0, panx, pany, panrad = 0.4,
 	gate = 1, freq = 261, reso = 10|
 	var env = EnvGen.ar(Env.asr(0.001, 1, 0.1), gate, doneAction: 2);
 	// var amps = q.pos.xy2distAmps(panx @ pany, q.pos.mics, 2)[1];
-	var amps = q.pos.xyBellDist(panx @ pany, q.pos.mics, 0.4)[1];
+	var amps = q.pos.xyBellDist(panx @ pany, q.pos.mics, panrad)[1];
 
 	// var freq2 = (freq * (5 ** LFDNoise3.kr(ExpRand(1, 30), amp * 0.3))).clip(50, 15000);
 	// var snd = BPF.ar(GrayNoise.ar + Dust.ar(30, 20), freq2 * [1, 1.9], 1/reso);
@@ -101,7 +102,7 @@ MFdef(\MTP_draw).add(\draw, { |uv|
 	MTP.fingersDict.keysValuesDo { |key, fItem|
 		var x = width  - halfFing * fItem[0];
 		var y = height - halfFing * fItem[1];
-		var fingSize = fingerSize * fItem[2] * 0.5;
+		var fingSize = fingerSize * fItem[2] * ~mtpRad;
 
 		Pen.color = MTP.fingerCol;
 		Pen.strokeOval( Rect.aboutPoint(x@y, fingSize, fingSize));
@@ -246,41 +247,49 @@ MFdef(\noyzResons).add('switch', {
 
 	// now set them
 	MTP.touchAction = {|curID, xys|
-		if (q.mtp.verbose) {
-			"MTP noyzResons starts w/ curID: % xys: %. \n    ".postf(curID, xys.round(0.001));
-		};
-		q.mtp.vcRes.put(curID, [
+		var params = [
 			\freq, exprand(100, 3000), // (xys[0]).linexp(0, 1, 30, 3000),
 			\reso, 3, // xys[1].linexp(0, 1, 5, 100),
 			\amp, xys[2].squared * 2 * ~mtpAmp,
 			\panx, xys[0] - 0.5 * 19 - 0.1,
 			\pany, xys[1] - 0.5 * -19 + 0.7,
-			\panrad, xys[2].linlin(0.6, 6, 0.2, 1)
-		]);
+			\panrad, xys[2].linlin(0.6, 6, 0.2, 1) * ~mtpRad
+		];
+		q.mtp.vcRes.put(curID, params);
+		if (q.mtp.verbose) {
+			"MTP noyzResons starts w/ curID: % xys: %. \n    ".postf(curID, xys.round(0.001));
+			params.round(0.001).postln;
+		};
 	};
 	MTP.untouchAction = {|curID|
-		// "MTP noyzResons curID: % ends.\n".postf(curID);
+		if (q.mtp.verbose) {
+			"MTP noyzResons curID: % ends.\n".postf(curID);
+		};
 		q.mtp.vcRes.release(curID);
 	};
 	MTP.setAction = { |curID, xys|
-	var unix = xys[0], uniy = xys[1], unirad = xys[2];
-	var metx, mety, metrad;
-	//    "   set curID: % xys: % \n    ".postf(curID, xys.round(0.001));
-	// do the precise conversions:
-	metx = (unix - 0.5 * 19 - 0.1);
-	mety = (uniy - 0.5 * -19 + 0.7);
-	metrad = unirad.linlin(0.6, 6, 0.2, 1);
+		var unix = xys[0], uniy = xys[1], unirad = xys[2];
+		var metx, mety, metrad, params;
+		//    "   set curID: % xys: % \n    ".postf(curID, xys.round(0.001));
+		// do the precise conversions:
+		metx = (unix - 0.5 * 19 - 0.1);
+		mety = (uniy - 0.5 * -19 + 0.7);
+		metrad = unirad.linlin(0.6, 6, 0.2, 1);
 
-	// matches with q.pos.mics now!
-	// [metx, mety].round(0.01).postln;
-
-	q.mtp.vcRes.setAt(curID, *[
-		\amp, xys[2].squared * 0.5 * ~mtpAmp,
-		\panx, metx,
-		\pany, mety,
-		\panrad, metrad
-	]);
-};
+		// matches with q.pos.mics now!
+		// [metx, mety].round(0.01).postln;
+		params = [
+			\amp, xys[2].squared * 0.5 * ~mtpAmp,
+			\panx, metx,
+			\pany, mety,
+			\panrad, metrad * ~mtpRad
+		];
+		q.mtp.vcRes.setAt(curID, *params);
+		if (q.mtp.verbose) {
+			"MTP curID: % set:\n".postf(curID);
+			params.round(0.001).postln;
+		};
+	};
 });
 
 Butz(\poly).add(\MTP_MicIns, MFdef(\noyzMicIns));
