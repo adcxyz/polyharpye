@@ -1,8 +1,8 @@
 (
 Ndef(\Ph_sawAM).clear.clearHalo;
-Ndef(\Ph_sawAM).ar(q.numResons);
+Ndef(\Ph_sawAM).ar(PH.numResons);
 
-Ndef(\Ph_sawAM).parentGroup_(q.grpList[2]);
+Ndef(\Ph_sawAM).parentGroup_(PH.grpList[2]);
 Ndef(\Ph_sawAM).vol = 0.25;
 Ndef(\Ph_sawAM).fadeTime = 5;
 

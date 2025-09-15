@@ -7,20 +7,20 @@
 
 **** call current setup file!
 
-MFdef(\hideNdefs).(q.ndef.groups[\Mics]);
-MFdef(\showNdefs).(q.ndef.groups[\Mics]);
+MFdef(\hideNdefs).(PH.ndef.groups[\Mics]);
+MFdef(\showNdefs).(PH.ndef.groups[\Mics]);
 */
 
 NdefPreset.all.do(_.loadSettings);
 Ndef.all.localhost.do(_.fadeTime = 1);
 
-q.ndef = q.ndef ? ();
-q.ndef.groups = q.ndef.groups ? ();
+PH.ndef = PH.ndef ? ();
+PH.ndef.groups = PH.ndef.groups ? ();
 
-q.ndef.groups[\All] = Ndef.dictFor(s);
+PH.ndef.groups[\All] = Ndef.dictFor(s);
 
 // all real, expanded and simulated mic inputs
-q.ndef.groups[\Mics] = [
+PH.ndef.groups[\Mics] = [
 	Ndef('Pa_micIns'),
 	Ndef('Pa_micsAll'),
 	Ndef('Pa_micsMax'),
@@ -30,14 +30,14 @@ q.ndef.groups[\Mics] = [
 ];
 
 // all outputs are always playing
-q.ndef.groups[\Outs] = [
+PH.ndef.groups[\Outs] = [
 	Ndef('Pz_ins2Spk'),
 	Ndef('Pz_grid'),
 	// Ndef(\Pz_sub),
 ];
 
 ////// ALL THE SOUND THAT CAN PLAY:
-q.ndef.groups[\Sounds] = [
+PH.ndef.groups[\Sounds] = [
 	/// the faves
 	Ndef('Ph_sitar1'),
 	Ndef('Ph_tabloid'),
@@ -65,10 +65,10 @@ q.ndef.groups[\Sounds] = [
 ];
 
 // the top8 we want on 8chan controllers:
-q.ndef.top8 = q.ndef.groups[\Sounds].keep(8);
+PH.ndef.top8 = PH.ndef.groups[\Sounds].keep(8);
 
 // necessary running but non-playing silent ndefs:
-q.ndef.groups[\Perms] = [
+PH.ndef.groups[\Perms] = [
 	Ndef('Pa_micIns'),
 	Ndef('Pa_micsAll'),
 	Ndef('Pa_micsMax'),
@@ -88,23 +88,23 @@ q.ndef.groups[\Perms] = [
 	Ndef(\Pz_mainCopy)
 ];
 
-q.ndef.groups[\Sounds].do(_.end(0));
+PH.ndef.groups[\Sounds].do(_.end(0));
 try { s.sync };
 
-q.ndef.groups[\Sounds].do(_.vol_(0.25));
+PH.ndef.groups[\Sounds].do(_.vol_(0.25));
 
-q.ndef.groups[\Outs].do(_.vol_(0.2));
+PH.ndef.groups[\Outs].do(_.vol_(0.2));
 
-q.ndef.unknown = Ndef.all[s.name].as(Array).removeAll([
-	q.ndef.groups[\Mics],
-	q.ndef.groups[\Sounds],
-	q.ndef.groups[\Outs],
-	q.ndef.groups[\Perms],
+PH.ndef.unknown = Ndef.all[s.name].as(Array).removeAll([
+	PH.ndef.groups[\Mics],
+	PH.ndef.groups[\Sounds],
+	PH.ndef.groups[\Outs],
+	PH.ndef.groups[\Perms],
 ].flat);
 
-if (q.ndef.unknown.size > 0) {
-	"*** UNKNOWN NDEFS ? \n// q.ndef.unknown has: ".post;
-	q.ndef.unknown.postln
+if (PH.ndef.unknown.size > 0) {
+	"*** UNKNOWN NDEFS ? \n// PH.ndef.unknown has: ".post;
+	PH.ndef.unknown.postln
 } {
 	"all Ndefs are known in groups.".postln
 };
@@ -113,7 +113,7 @@ ServerTree.add(MFdef(\wakeUp), s);
 
 MFdef(\wakeUp).add(\perms, {
 	"wakeUp perms".postln;
-	q.ndef.groups[\Perms].do { |ndef|
+	PH.ndef.groups[\Perms].do { |ndef|
 		ndef.stop.resume.wakeUp;
 		// wait works, sync does not ???
 		0.08.wait;
@@ -123,7 +123,7 @@ MFdef(\wakeUp).add(\perms, {
 });
 
 MFdef(\wakeUp).add(\outs, {
-	q.ndef.groups[\Outs].do { |ndef|
+	PH.ndef.groups[\Outs].do { |ndef|
 		ndef.resume.play;
 		0.05.wait;
 	};

@@ -1,16 +1,14 @@
+var q = PH.q;
 
+"*** Polyharpye loadMe file.\n".postln;
 
+// global storage
+q.dir = q.dir ? ();
+q.dir.poly = thisProcess.nowExecutingPath.dirname;
 
 Task({
 	0.1.wait;
 	LoadMe.start;
-
-	"*** Polyharpye loadMe file.\n".postln;
-
-	// global storage
-	q = q ? ();
-	q.dir = q.dir ? ();
-	q.dir.poly = thisProcess.nowExecutingPath.dirname;
 
 	////////////////////////////////////////////////////////////
 	"***** GLOBAL SETUP things first: ******".postln;
@@ -20,11 +18,12 @@ Task({
 	q.numSpks = q.numSpks ? 2;
 	q.randSeed = q.randSeed ? 666;
 
-	q.numResons = 46; // same as numNotes, numPseudoMics
+	q.numResons = q.numResons ? 46; // same as numNotes, numPseudoMics
 	q.lastReson = q.numResons - 1;
 
 	Ndef.defaultReshaping = nil;
 
+	// these are for the proxymixer?
 	q.ndefGroups = q.ndefGroups ? ();
 
 	////// soft check for present quarks
@@ -41,6 +40,8 @@ Task({
 
 	"*** q.numMics: %\n".postf(q.numMics);
 
+	// copied from NTMI a long time ago;
+	// better load current version from there
 	LoadMe("allFX.scd");
 
 	LoadMe("01a_synthdefs.scd");
@@ -48,20 +49,21 @@ Task({
 	LoadMe("01c_butz.scd");
 	LoadMe("01d_ndefmix.scd");
 
-
 	////// SET SPEAKER POSITIONS - must be one of:
 	// [ 'head', 'caeiros', 'aula', 'mumuth', 'tuBig'  ]
-	// q.pos.spks = q.pos.aula * 0.8;
-	// q.pos.spks = q.pos.caeiros * 2;
-	q.pos.spks = q.pos.caeiros * 2;
-	q.pos.spks = q.pos.head * 2;
-
+	q.pos.aula = q.pos.aula * 0.8;
+	q.pos.caeiros = q.pos.caeiros * 2;
 	q.pos.spks = q.pos.tuBig * 2;
+	q.pos.head = q.pos.head * 2;
 
-	////// supernova: set max numOutputBusChannels correctly pe interface!
+	PH.spksName = PH.spksName ? \head;
+	q.pos.spks = q.pos[PH.spksName];
+
+	////// supernova: set max numOutputBusChannels correctly per interface.
 	q.pos.spks = q.pos.spks.keep(s.options.numOutputBusChannels);
 	q.numSpks = q.pos.spks.size;
-	"q.numSpks: %.\n".postf(q.numSpks);
+	"PH.spksName: %, numSpks: %.\n".postf(PH.spksName, q.numSpks);
+
 
 	if (s.serverRunning.not) {
 		"booting server ...\n\n".postln;
@@ -87,7 +89,7 @@ Task({
 		// wait for server interface to finish
 		0.1.wait;
 
-		q.pos.omnibus = Bus.audio(s, q.numResons);
+		PH.pos.omnibus = Bus.audio(s, q.numResons);
 
 		// set a latency for loading only
 		s.latency = 0.1;
@@ -154,7 +156,11 @@ Task({
 
 		s.sync; 0.1.wait;
 
-		LoadMe("09*.scd");
+		if (PH.usesMainFX == true) {
+			LoadMe("09*.scd");
+		} {
+			"PH: no mainFX.".postln;
+		};
 
 		s.sync; 0.1.wait;
 
@@ -176,68 +182,24 @@ Task({
 		// // sitar, tabla, tringulz
 		q.scenes.buts[0].doAction;
 
+
+		"*** GETS HERE???".postln;
+
 		s.sync; 0.1.wait;
 
 		Butz.run(\poly).showButs;
 
 		Ndef(\Pz_grid).play(vol: 0.25, fadeTime: 3);
 
-		q.mixbuts[1].valueAction_(1);
-
 		// fast response for MTP
-		s.latency = q.poly.latency ? 0.06;
-		s.volume = q.poly.volume ? -6;
+		s.latency = PH.latency ? 0.06;
+		s.volume = PH.volume ? -6;
+
 
 		Ndef('Ph_sitar1').set(\rq, 0.62);
+		Ndef(\Pz_grid).vol_(1);
 
-		"\n*** Polyharpye SETUP DONE in % seconds.\n\n".postf((Main.elapsedTime - t0).round(0.001));
-
-		/// Venezia startup here!
-		// "/Users/adc/projects/Rossi_Venezia/code/Rossi_Venezia.scd".openOS
-		// LoadMe("/Users/adc/projects/Rossi_Venezia/code/Rossi_Venezia.scd");
-
-		~mtpAmp = 1;
-		MKtl('nanoK2').elAt(\kn, 5).elemDesc.label = "mtpAmp";
-		MKtl('nanoK2').elAt(\kn, 5).action = { |kn|
-			~mtpAmp = (kn.value * 2).round(0.0001);
-			"~mtpAmp: %\n".postf(~mtpAmp);
-		};
-
-		MKtl('nanoK2').elAt(\kn, 6).elemDesc.label = "mics2Pol";
-		MKtl('nanoK2').elAt(\kn, 6).action = { |kn|
-			"mics2Poly: %\n".postf(kn.value.squared.ampdb.round(0.1));
-			Ndef('Pa_micIns').setUni(\gain, kn.value);
-		};
-
-		// Spec.add(\ntm2poly, \amp);
-		// Ndef(\Pa_micIns).put(5, \mix -> { |ntm2poly = 0|
-		// 	NTMI.slots.zz.collect(_.ar(1)) * ntm2poly
-		// });
-		//
-		//
-		// // not working yet
-		// MKtl('nanoK2').elAt(\kn, 6).elemDesc.label = "ntmi2Pol";
-		// MKtl('nanoK2').elAt(\kn, 6).action = { |kn|
-		// 	"NTM2Poly: %\n".postf(kn.value.squared.round(0.0001));
-		// 	Ndef(\Pa_micIns).setUni(\ntm2poly, kn.value);
-		// };
-
-		// hard volume,
-		~volspec = [-90, 6, \db].asSpec;
-		MKtl('nanoK2').elAt(\kn, 7).elemDesc.label = "main Vol";
-		// MKtl('nanoK2').elAt(\kn, 7).action = { |kn|
-		// 	s.volume = ~volspec.map(kn.value.postln);
-		// };
-
-		MKtl('nanoK2').elAt(\sl, 7).elemDesc.label = "poly Vol";
-		MKtl('nanoK2').elAt(\sl, 7).action = { |el|
-			Ndef(\Pz_grid).vol_(el.value.squared);
-		};
-
-
-		2.wait;
-
-
+		PH.finalSetup;
 
 		defer {
 			Window.find("PRESETS").close;
@@ -245,8 +207,9 @@ Task({
 			MFdef(\showScaleNotes).value;
 		};
 
-		Ndef(\Pz_grid).vol_(0.6);
 
+		"\n*** Polyharpye: SETUP DONE in % seconds.\n\n"
+		.postf((Main.elapsedTime - t0).round(0.001));
 		LoadMe.end;
 
 	};

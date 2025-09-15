@@ -4,6 +4,6 @@ onNdefs:  [
 	(ndef: Ndef(\Ph_sitar1),
 		vol: 0.5,
 		// settings: [\transpose, -12],
-		netIndex: q.pos.allNets
+		netIndex: PH.pos.allNets
 	)
 ])

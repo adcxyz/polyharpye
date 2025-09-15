@@ -4,8 +4,8 @@
 
 *** TODO - build switching interface for trig sounds > see 15_sentience.scd for more analysis. gui viz, ...
 
-q.util.spat_MicIns.proxy.scope
-q.micTrigAmp = 1;
+PH.util.spat_MicIns.proxy.scope
+PH.micTrigAmp = 1;
 
 OSCdef(\micTrig).enable;
 OSCdef(\micTrig).disable;
@@ -30,16 +30,16 @@ MFdef(\micTrig).at(\band).value(
 (
 chanID: chanID,
 ampBus: Ndef(\Ph_ropeTrigs).bus.index + chanID,
-inGroups: q.pos.micGroups.select { |assoc| assoc.value.includes(chanID) }.collect(_.key);
+inGroups: PH.pos.micGroups.select { |assoc| assoc.value.includes(chanID) }.collect(_.key);
 );
 );
 )
 
 */
-q.rope= q.rope ? ();
+PH.rope= PH.rope ? ();
 // global rope data
-q.rope.scale = Scale.major;
-q.rope.trigGroupSounds = (
+PH.rope.scale = Scale.major;
+PH.rope.trigGroupSounds = (
 	\netA: \trigSinFB,
 	\netB: \trigNoise,
 	\netC: \trigBD
@@ -55,17 +55,17 @@ Spec.add(\thresh, [0.01, 1, \exp]);
 // \ropeTrigs are a bit wrong: they SendTrig the Trigs, but utput just the EnvFollower!
 // \ropeTrixReals outpuz the EnvFollower!
 Ndef(\Ph_ropeTrigs).clear;
-Ndef(\Ph_ropeTrigs).parentGroup_(q.grpList.first);
+Ndef(\Ph_ropeTrigs).parentGroup_(PH.grpList.first);
 Ndef(\Ph_ropeTrigs).addSpec(\threshRatio, [1,25,\exp, 0.1]);
 
-Ndef(\Ph_ropeTrixReals).parentGroup_(q.grpList.first);
-Ndef(\Ph_ropeTrixReals).kr( q.inNums.size );
+Ndef(\Ph_ropeTrixReals).parentGroup_(PH.grpList.first);
+Ndef(\Ph_ropeTrixReals).kr( PH.inNums.size );
 
 Ndef(\Ph_ropeTrigs, {|thresh =0.05, loCutFreq = 500, peakFCoeff = 0.9995|
 	var peax = PeakFollower.ar(RHPF.ar(Ndef(\Pa_micsAll).ar, loCutFreq), peakFCoeff );
 	var trix = Trig.ar(peax > thresh, 0.15);
 	Out.kr( Ndef(\Ph_ropeTrixReals).index, trix);
-	SendTrig.ar(trix, q.inNums, peax);
+	SendTrig.ar(trix, PH.inNums, peax);
 	A2K.kr(peax)
 });
 
@@ -86,7 +86,7 @@ OSCdef(\micTrig, { arg msg;
 		chanID: chanID,
 		ampBusIndex: Ndef(\Ph_ropeTrigs).bus.index + chanID,
 	);
-	q.pos.micGroups.do { |indices, name, i|
+	PH.pos.micGroups.do { |indices, name, i|
 		if (indices.includes(chanID)) {
 			inGroups = inGroups.add(name)
 		};
@@ -100,33 +100,33 @@ OSCdef(\micTrig).permanent_(true);
 OSCdef(\micTrig).enable;
 OSCdef(\micTrig).disable;
 
-q.micTrigAmp = 0.5;
+PH.micTrigAmp = 0.5;
 
 MFdef(\micTrig).add(\post, { |event| event.postcs });
 
 MFdef(\micTrig).add(\sinFB, { |event|
 	(
 		instrument: \trigSinFB,
-		scale: q.rope.scale,
+		scale: PH.rope.scale,
 		degree: event.chanID,
-		amp: q.micTrigAmp,
+		amp: PH.micTrigAmp,
 		\ampBus: event.ampBusIndex,
 		\pitchMod: -2,
-		group: q.grpList[1],
-		\out: q.pos.omnibus.index + event.chanID
+		group: PH.grpList[1],
+		\out: PH.pos.omnibus.index + event.chanID
 	).postln.play;
 }, false );
 
 MFdef(\micTrig).add(\varSaw, { |event|
 	(
 		instrument: \trigVarSaw,
-		scale: q.rope.scale,
+		scale: PH.rope.scale,
 		degree: event.chanID,
-		amp: q.micTrigAmp,
+		amp: PH.micTrigAmp,
 		\ampBus: event.ampBusIndex,
 		\pitchMod: 2,
-		group: q.grpList[1],
-		\out: q.pos.omnibus.index + event.chanID
+		group: PH.grpList[1],
+		\out: PH.pos.omnibus.index + event.chanID
 	).postln.play;
 }, false );
 
@@ -135,14 +135,14 @@ MFdef(\micTrig).add(\band, { |event|
 
 	groups.do { |grName|
 		(
-			instrument: q.rope.trigGroupSounds[grName].postcs ? \trigVarSaw,
-			scale: q.rope.scale,
+			instrument: PH.rope.trigGroupSounds[grName].postcs ? \trigVarSaw,
+			scale: PH.rope.scale,
 			degree: event.chanID,
-			amp: q.micTrigAmp,
+			amp: PH.micTrigAmp,
 			\ampBus: event.ampBusIndex,
 			\pitchMod: 1,
-			group: q.grpList[1],
-			\out: q.pos.omnibus.index + event.chanID
+			group: PH.grpList[1],
+			\out: PH.pos.omnibus.index + event.chanID
 		).postln.play;
 	}
 }, false);
@@ -224,13 +224,13 @@ OffsetOut.ar(out, snd );
 MFdef(\micTrig).add(\ampMod, { |event|
 (
 instrument: \ampMod,
-scale: q.rope.scale,
+scale: PH.rope.scale,
 degree: event.chanID -12,
-amp: q.micTrigAmp,
+amp: PH.micTrigAmp,
 \ampBus: event.ampBusIndex,
 \pitchMod: -12,
-group: q.grpList[1],
-\out: q.pos.omnibus.index + event.chanID
+group: PH.grpList[1],
+\out: PH.pos.omnibus.index + event.chanID
 ).postln.play;
 }, false );
 */

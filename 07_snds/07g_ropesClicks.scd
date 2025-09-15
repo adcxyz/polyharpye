@@ -1,6 +1,6 @@
 (
-Ndef(\Ph_ropesClicks).clear.clearHalo.ar(q.numResons);
-Ndef(\Ph_ropesClicks).parentGroup_(q.grpList[2]);
+Ndef(\Ph_ropesClicks).clear.clearHalo.ar(PH.numResons);
+Ndef(\Ph_ropesClicks).parentGroup_(PH.grpList[2]);
 Ndef(\Ph_ropesClicks).fadeTime = 5;
 
 MFdef(\ndef_setNet).value(Ndef(\Ph_ropesClicks), 6);

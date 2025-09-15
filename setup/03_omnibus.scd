@@ -9,12 +9,7 @@ mumuth: 0-28 go to speakers
 
 */
 
-// make 8 parallel groups for ins, processing chains, outs
-q.grp = q.grp ? ();
-q.grpList = q.grpList ?? {
-	8.collect { ParGroup.basicNew(s, s.nextPermNodeID) };
-};
-
+var q = PH.q;
 
 q.pos.omnibus = q.pos.omnibus ?? { Bus.audio(s, q.numResons) }; //rename to power pan??
 

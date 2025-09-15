@@ -3,7 +3,8 @@
 // microphone groups/networks
 // speaker locations
 
-q = q ? ();
+var q = PH.q;
+// q = q ? ();
 q.pos = q.pos ? ();
 q.numResons = q.numResons ? 46;
 q.lastReson = q.numResons - 1;

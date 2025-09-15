@@ -13,26 +13,26 @@ MKtl(\nk2).gui;
 
 Butz(\poly).add(\scaleGM, {
 	// default:
-	q.setScale(
-		// (q.chords.chords.gmspiral2 ++ q.chords.chords.gmspiral2.keep(-19)).scramble
-		q.chords.golden.orderedChord;
+	PH.setScale(
+		// (PH.chords.chords.gmspiral2 ++ PH.chords.chords.gmspiral2.keep(-19)).scramble
+		PH.chords.golden.orderedChord;
 	);
 });
 
 Butz(\poly).add(\scaleGMRev, {
 	// same goldenMean tuning, but reversed
-	q.setScale(
-		// (q.chords.chords.gmspiral2 ++ q.chords.chords.gmspiral2.keep(-19)).scramble
-		q.chords.golden.orderedChord.reverse;
+	PH.setScale(
+		// (PH.chords.chords.gmspiral2 ++ PH.chords.chords.gmspiral2.keep(-19)).scramble
+		PH.chords.golden.orderedChord.reverse;
 	);
 });
 
 
 Butz(\poly).add(\scaleHung23, {
-	q.setScale(q.makeScale(23, \hungarianMinor));
+	PH.setScale(PH.makeScale(23, \hungarianMinor));
 });
 
 Butz(\poly).add(\scaleHung42, {
-	q.setScale(q.makeScale(42, \hungarianMinor));
+	PH.setScale(PH.makeScale(42, \hungarianMinor));
 });
 

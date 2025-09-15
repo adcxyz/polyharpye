@@ -7,6 +7,8 @@ q.getScaleAbs.round(0.001);
 see also:
 "02b_explore_chords.scd".resolveRelative.openOS;
 */
+
+var q = PH.q;
 (
 q.scale = q.scale ? ();
 

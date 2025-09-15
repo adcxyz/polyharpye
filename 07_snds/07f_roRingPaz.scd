@@ -1,9 +1,9 @@
 ///// dominik style ringz in overtones 1, 3, 5 tuning
 (
 Ndef(\Ph_roRingPaz).clear.clearHalo;
-Ndef(\Ph_roRingPaz).ar(q.numResons);
+Ndef(\Ph_roRingPaz).ar(PH.numResons);
 
-Ndef(\Ph_roRingPaz).parentGroup_(q.grpList[2]);
+Ndef(\Ph_roRingPaz).parentGroup_(PH.grpList[2]);
 Ndef(\Ph_roRingPaz).vol = 0.25;
 Ndef(\Ph_roRingPaz).fadeTime = 5;
 Ndef(\Ph_roRingPaz).addSpec(\decTime, [0.01,2.0,\lin]);

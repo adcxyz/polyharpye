@@ -11,8 +11,8 @@ Ndef(\time16).play(vol: 0.25);
 
 Ndef(\Ph_rhythmicon).clear;
 Ndef(\Ph_rhythmicon).clearHalo;
-Ndef(\Ph_rhythmicon).ar(q.numResons);
-Ndef(\Ph_rhythmicon).parentGroup_(q.grpList[2]);
+Ndef(\Ph_rhythmicon).ar(PH.numResons);
+Ndef(\Ph_rhythmicon).parentGroup_(PH.grpList[2]);
 Ndef(\Ph_rhythmicon).fadeTime = 2;
 
 MFdef(\ndef_setNet).value(Ndef(\Ph_rhythmicon), 10);
@@ -27,7 +27,7 @@ Ndef(\Ph_rhythmicon, { |minamp = 0.0, baserate = 2.618, ringscale = 1.4|
 	var numRopes = indices.size;
 	var pitches = Ndef(\scale).kr[indices];
 	var freqs = pitches.midicps;
-	var rates = q.getScale[indices].midiratio * baserate;
+	var rates = PH.getScale[indices].midiratio * baserate;
 	var poster = "- % \n- : %\n".postf(indices);
 
 	var tix = Impulse.ar(rates, 0, [1, -1].wrapExtend(numRopes)).lag2ud(0, 0.0003);

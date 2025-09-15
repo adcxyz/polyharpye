@@ -1,4 +1,5 @@
 // simple speaker testers & in/out displays
+var q = PH.q;
 (
 q.test = q.test ? ();
 q.test.dust = NodeProxy(s);

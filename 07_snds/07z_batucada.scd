@@ -2,7 +2,7 @@
 /////// WORKS only WITH MICS 1-6 ////////
 // check in ndefSwitch ing !!
 
-Ndef(\Ph_batucada).clear.clearHalo.ar(q.numResons);
+Ndef(\Ph_batucada).clear.clearHalo.ar(PH.numResons);
 
 Ndef(\Ph_batucada).addSpec(\minamp, [0, 0.2, \amp]);
 Ndef(\Ph_batucada).addSpec(\guideAmp, [0, 0.2, \amp]);

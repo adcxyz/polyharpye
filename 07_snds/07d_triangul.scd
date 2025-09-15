@@ -1,7 +1,7 @@
 // turiangl
 (
-Ndef(\Ph_triangul).clear.clearHalo.ar(q.numResons);
-Ndef(\Ph_triangul).parentGroup_(q.grpList[2]);
+Ndef(\Ph_triangul).clear.clearHalo.ar(PH.numResons);
+Ndef(\Ph_triangul).parentGroup_(PH.grpList[2]);
 Ndef(\Ph_triangul).fadeTime = 2;
 
 Ndef(\Ph_triangul).addSpec(\maxring, [0.0625, 16, \exp]);
@@ -23,7 +23,7 @@ Ndef(\Ph_triangul, { |maxring = 16|
 	var ovt = 6;
 	var noize = PinkNoise.ar;
 	var dlys;
-	var intvs = q.chords.golden.gmpitch * [ 0.382, 0.618, 1];
+	var intvs = PH.chords.golden.gmpitch * [ 0.382, 0.618, 1];
 
 	snds = snds.collect { |snd, i|
 		var freqs, decays;

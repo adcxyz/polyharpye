@@ -2,8 +2,8 @@
 // merge in from sitar_versions.scd
 
 Ndef(\Ph_sitar1).clear.clearHalo;
-Ndef(\Ph_sitar1).ar(q.numResons);
-Ndef(\Ph_sitar1).parentGroup_(q.grpList[2]);
+Ndef(\Ph_sitar1).ar(PH.numResons);
+Ndef(\Ph_sitar1).parentGroup_(PH.grpList[2]);
 
 Ndef(\Ph_sitar1).vol = 0.25;
 Ndef(\Ph_sitar1).fadeTime = 3;

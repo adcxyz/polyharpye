@@ -109,7 +109,8 @@ Butz(\poly).add('fadeALL', { q.ndef.groups[\Sounds].do(_.end(5)); });
 ].do (Butz(\poly).add(_));
 
 
-
+// put these in a generally useful place?
+// maybe in adclib?
 
 Butz.add(\meter, { WinBounds.showOrMake(\meter) });
 WinBounds.addMake(\meter, {

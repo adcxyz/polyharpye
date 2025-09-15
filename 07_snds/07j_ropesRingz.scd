@@ -5,8 +5,8 @@ finetuned by adc for polyharpye
 *****/
 
 Ndef(\Ph_ropesRingz).clear.clearHalo;
-Ndef(\Ph_ropesRingz).ar(q.numResons);
-Ndef(\Ph_ropesRingz).parentGroup_(q.grpList[2]);
+Ndef(\Ph_ropesRingz).ar(PH.numResons);
+Ndef(\Ph_ropesRingz).parentGroup_(PH.grpList[2]);
 
 Ndef(\Ph_ropesRingz).vol = 0.25;
 Ndef(\Ph_ropesRingz).fadeTime = 5;

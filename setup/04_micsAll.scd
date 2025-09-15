@@ -3,7 +3,9 @@
 // add filtering
 // add simulator sounds for pluck and rub
 
-q = q ? ();
+var q = PH.q;
+// q = q ? ();
+
 q.rope = q.rope ? ();
 // these shd maybe go in a more global place
 q.numIns = q.numResons;

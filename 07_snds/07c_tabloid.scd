@@ -1,8 +1,8 @@
 (
 Ndef(\Ph_tabloid).clear.clearHalo;
-Ndef(\Ph_tabloid).ar(q.numResons);
+Ndef(\Ph_tabloid).ar(PH.numResons);
 
-Ndef(\Ph_tabloid).parentGroup_(q.grpList[2]);
+Ndef(\Ph_tabloid).parentGroup_(PH.grpList[2]);
 Ndef(\Ph_tabloid).vol = 0.25;
 Ndef(\Ph_tabloid).fadeTime = 5;
 

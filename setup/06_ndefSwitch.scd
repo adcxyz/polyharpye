@@ -10,13 +10,13 @@ MFdef(\ndef_setNet).value(Ndef(\x), 1);
 MFdef(\ndef_setNet).value(Ndef(\x), [0, 1]);
 MFdef(\ndef_setNet).value(Ndef(\x), [1, 1]);
 Ndef(\x).getHalo;
-MFdef(\ndef_setNet).value(Ndef(\x), q.pos.allNets);
+MFdef(\ndef_setNet).value(Ndef(\x), PH.pos.allNets);
 
-MFdef(\ndef_setNet).value(Ndef(\x), (0, 4 .. q.pos.lastNet));
+MFdef(\ndef_setNet).value(Ndef(\x), (0, 4 .. PH.pos.lastNet));
 
-q.pos.allNets
-q.pos.numNets
-q.pos.lastNet
+PH.pos.allNets
+PH.pos.numNets
+PH.pos.lastNet
 
 //////// SET NET NUMBER directly by hand:
 Ndef(\Ph_sitar1).addHalo(\myNet, (0..31));
@@ -32,13 +32,13 @@ MFdef(\ndef_playNet).(Ndef(\Ph_sitar1), 1, 0.5, [\detune, 4.5] );
 MFdef(\ndef2net).value(Ndef(\Ph_sitar1), [0, 1, 2], 2, 0.2, [\amp, 0.1]);
 
 // further args when switching: fadeTime, vol, parameters
-MFdef(\ndef2net).value(Ndef('tabloid'), q.pos.allNets, 5, 0.15, [\detune, -7]);
+MFdef(\ndef2net).value(Ndef('tabloid'), PH.pos.allNets, 5, 0.15, [\detune, -7]);
 
 Ndef('tabloid').end(5);
 */
 
 MFdef(\ndef_setNet).add(\set, { |ndef, netIndex|
-	var namedPosList = q.pos.micGroups;
+	var namedPosList = PH.pos.micGroups;
 	var netNames = netIndex.asArray.collect { |nameOrIndex|
 		if (nameOrIndex.isKindOf(Symbol)) { nameOrIndex } {
 			namedPosList.names[nameOrIndex]
@@ -68,7 +68,7 @@ MFdef(\ndef_playNet).add(\redo, { |ndef, fadeTime = 3, vol, settings|
 			ndef.rebuild;
 			s.sync;
 			"%.playN\n".postf(ndef);
-			ndef.playN(q.pos.omnibus.index + netIndices, vol: vol, fadeTime: fadeTime);
+			ndef.playN(PH.pos.omnibus.index + netIndices, vol: vol, fadeTime: fadeTime);
 		};
 		ndef
 	} {
@@ -89,7 +89,7 @@ MFdef(\ndef2net).add(\switch, { |ndef, netIndex, fadeTime = 3, vol, settings|
 // rebuild one Ndef with a random choice of groups, just give it a size:
 MFdef(\playRandGroups).add(\groups, { |ndef, numGroups = 2, fadeTime = 3 |
 	fork {
-		var netGroups = (0..q.pos.micGroups.lastIndex).scramble.keep(numGroups).postln;
+		var netGroups = (0..PH.pos.micGroups.lastIndex).scramble.keep(numGroups).postln;
 		MFdef(\ndef2net).value(
 			ndef,
 			netGroups,

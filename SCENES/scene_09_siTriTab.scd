@@ -19,6 +19,6 @@ onNdefs:  [
 	),
 	// (ndef: Ndef(\Ph_verb),
 	// 	vol: 0.1,
-	// 	netIndex: q.pos.allNets
+	// 	netIndex: PH.pos.allNets
 	// ),
 ])

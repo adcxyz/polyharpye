@@ -9,7 +9,7 @@ name: \START_SOUND,
 onNdefs:  [
 	(ndef: Ndef(\Ph_ropesRingz),
 		vol: 0.25,
-		netIndex: q.pos.allNets, ////// .removeAll([ 10, 17, 18]),
+		netIndex: PH.pos.allNets, ////// .removeAll([ 10, 17, 18]),
 		settings: [ 'amp', 0.5, 'decTime', 0.9, 'detune', 0, 'whiten', 2, 'amp2pitch', 0.02 ]
 	),
 	(ndef: Ndef(\Ph_ropesPure),

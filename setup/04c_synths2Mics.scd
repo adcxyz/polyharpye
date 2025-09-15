@@ -16,7 +16,7 @@ SynthDef( \mrid, { arg out, freq = (60.midicps), amp = 0.1, panL = -1;
 
 Pdef(\mrid1Spk,
 	Pbind(
-		\out, Pseq((0..q.numSpks-1), inf),
+		\out, Pseq((0..PH.numSpks-1), inf),
 		\degree, Pseq((0..5) - 7, inf),
 		\instrument, \mrid,
 	)
@@ -30,7 +30,7 @@ Pdef(\mrid1Spk,
 ///// play into the real mic ins, xy-spread spatial
 Pdef(\mrid2Mics,
 	Pbind(
-		\out, Pn(Pseries(Ndef(\Pa_micIns).index, 1, q.numMics), inf),
+		\out, Pn(Pseries(Ndef(\Pa_micIns).index, 1, PH.numMics), inf),
 		\instrument, \mrid,
 		\amp, 0.1,
 		\degree, Pseq((0..5) - 7, inf),
@@ -43,7 +43,7 @@ Pdef(\mrid3Resons,
 	Pbind(
 		\instrument, \mrid,
 		\amp, 0.1,
-		\out, Ndef(\Pa_micsMax).index + Pn(Pseries(0, 1, q.numResons)),
+		\out, Ndef(\Pa_micsMax).index + Pn(Pseries(0, 1, PH.numResons)),
 		\degree, Pseq((0..5) - 7, inf),
 		\dur, 0.25
 	)

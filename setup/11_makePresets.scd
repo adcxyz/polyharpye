@@ -3,22 +3,22 @@
 
 
 /// LOAD ONE OF TE old saved settings:
-q.loadSetup(\stopped);
+PH.loadSetup(\stopped);
 
-q.loadSetup(\started);
-q.loadSetup("batuque");
+PH.loadSetup(\started);
+PH.loadSetup("batuque");
 
 // to save a setup, give it a name:
-q.saveSetup(\worldmusic);
+PH.saveSetup(\worldmusic);
 CmdPeriod.run;
-q.saveSetup(\stopped);
+PH.saveSetup(\stopped);
 
-q.loadSetup(\started);
-q.loadSetup("batuque");
+PH.loadSetup(\started);
+PH.loadSetup("batuque");
 
 */
 
-q.pre = ();
+PH.pre = ();
 
 // 'micsAll' are broken
 // // fix mystery broken Ph_micsAll values
@@ -27,20 +27,20 @@ q.pre = ();
 // 	if (key.isKindOf(Symbol).not) { Ndef(\Ph_micsAll).put(key, nil) }
 // };
 
-q.pre.names = Ndef.all.localhost.arProxyNames.reject(_  == \Ph_micsAll);
+PH.pre.names = Ndef.all.localhost.arProxyNames.reject(_  == \Ph_micsAll);
 
-q.pre.win = Window("PRESETS", Rect(0,0,500, 500)).front;
-q.pre.win.addFlowLayout;
+PH.pre.win = Window("PRESETS", Rect(0,0,500, 500)).front;
+PH.pre.win.addFlowLayout;
 
 // // separate buttons?
-// q.pre.butZone = CompositeView(q.pre.win, 100@600);
+// PH.pre.butZone = CompositeView(PH.pre.win, 100@600);
 // // update when needed!
-// q.pre.butZone.addFlowLayout;
-// q.pre.names.do { |name|
-// 	Button(q.pre.butZone, 90@30).states_([[name]]);
+// PH.pre.butZone.addFlowLayout;
+// PH.pre.names.do { |name|
+// 	Button(PH.pre.butZone, 90@30).states_([[name]]);
 // };
 
-q.pre.names.do { |name|
+PH.pre.names.do { |name|
 	try { NdefPreset(Ndef(name)).postcs } { "preset failed for: %!\n".postf(name) };
 };
 
@@ -54,7 +54,7 @@ q.pre.names.do { |name|
 ]
 ***/
 
-q.proxySaveList = { |q, proxy, withPlay = true, withSettings = true, withNet = true|
+PH.proxySaveList = { |q, proxy, withPlay = true, withSettings = true, withNet = true|
 	var list = List[proxy];
 	var monitor = proxy.monitor;
 	var playing = monitor.isPlaying;
@@ -78,28 +78,28 @@ q.proxySaveList = { |q, proxy, withPlay = true, withSettings = true, withNet = t
 	list
 };
 
-q.proxySaveList(Ndef(\verb)).cs.replace("], [", "],\n\t[").replace("), [", "),\n [").replace("[ [", "[\n\t[");
+PH.proxySaveList(Ndef(\verb)).cs.replace("], [", "],\n\t[").replace("), [", "),\n [").replace("[ [", "[\n\t[");
 
-q.proxySaveList(Ndef(\ropesRingz)).cs.replace("], [", "],\n\t[").replace("), [", "),\n [").replace("[ [", "[\n\t[");
+PH.proxySaveList(Ndef(\ropesRingz)).cs.replace("], [", "],\n\t[").replace("), [", "),\n [").replace("[ [", "[\n\t[");
 
-q.proxySaveList(Ndef(\batucada)).cs.replace("], [", "],\n\t[").replace("), [", "),\n [").replace("[ [", "[\n\t[");
+PH.proxySaveList(Ndef(\batucada)).cs.replace("], [", "],\n\t[").replace("), [", "),\n [").replace("[ [", "[\n\t[");
 
 
 /*
-q.proxySaveStr(Ndef(\time16), true, true);
-q.proxySaveStr(Ndef(\time16), true, Ndef(\time16).monitor.isPlaying);
-q.proxySaveStr(Ndef(\batucada));
-q.proxySaveStr(Ndef(\scale));
+PH.proxySaveStr(Ndef(\time16), true, true);
+PH.proxySaveStr(Ndef(\time16), true, Ndef(\time16).monitor.isPlaying);
+PH.proxySaveStr(Ndef(\batucada));
+PH.proxySaveStr(Ndef(\scale));
 
 */
 
 (
-q.saveSetup = { |q, savename, includeNodeMaps = true|
+PH.saveSetup = { |q, savename, includeNodeMaps = true|
 	var stamp = Date.getDate.stamp;
 	var basename = "SETUP_%.scd".format(savename ? stamp);
-	var filepath = q.q.dir.poly +/+ basename;
+	var filepath = q.dir.poly +/+ basename;
 	var bkName = "setups_BK/SETUP_%_%_BK.scd".format(savename, stamp);
-	var bkfilepath = q.q.dir.poly +/+ bkName;
+	var bkfilepath = q.dir.poly +/+ bkName;
 
 	var title = "/*** % - saved at date % . ***/\n\n".format(basename, stamp);
 
@@ -120,7 +120,7 @@ q.saveSetup = { |q, savename, includeNodeMaps = true|
 
 			file.write(title);
 
-			file.write("\n\n//////////// SOUNDS: All active q.ndefSounds param and playback settings:\n");
+			file.write("\n\n//////////// SOUNDS: All active PH.ndefSounds param and playback settings:\n");
 
 			file.write("[\n");
 
@@ -130,7 +130,7 @@ q.saveSetup = { |q, savename, includeNodeMaps = true|
 			};
 
 
-			file.write("\n\n//////////// OUTPUTS: q.ndefOuts param and playbackplayback settings:\n");
+			file.write("\n\n//////////// OUTPUTS: q.ndefOuts param and playback settings:\n");
 			q.ndefOuts.do { |proxy|
 				file.write(prettify.(q.proxySaveList(proxy)))
 			};
@@ -153,11 +153,11 @@ q.saveSetup = { |q, savename, includeNodeMaps = true|
 		filepath.openOS;
 	};
 };
-// q.saveSetup("sitarTest");
 );
+// PH.saveSetup("sitarTest");
 
-q.loadSetup = { |q, setupName="blablbal"|
-	var path = q.q.dir.poly +/+ "SETUP_%.scd".format(setupName);
+PH.loadSetup = { |q, setupName="blablbal"|
+	var path = q.dir.poly +/+ "SETUP_%.scd".format(setupName);
 	path.pathMatch.postcs;
 	path.loadPaths;
 };
@@ -165,27 +165,27 @@ q.loadSetup = { |q, setupName="blablbal"|
 
 /*
 
-q.saveSetup(\sitarbla);
+PH.saveSetup(\sitarbla);
 CmdPeriod.run;
-q.saveSetup(\stopped);
+PH.saveSetup(\stopped);
 
-q.loadSetup(\started);
-q.loadSetup("batuque");
+PH.loadSetup(\started);
+PH.loadSetup("batuque");
 
 
 Ndef.all.localhost.do(_.fadeTime = 0.02);
-q.loadSetup("stopped");
+PH.loadSetup("stopped");
 
-q.loadSetup("batuqueBOESE");
-q.loadSetup(\started);
+PH.loadSetup("batuqueBOESE");
+PH.loadSetup(\started);
 
 OSCdef(\micTrig).disable;
 MFdef(\micTrig).disable(\post);
 
 */
 
-q.pre.presetNames = NdefPreset.all.keys(Array).sort;
-q.pre.popup = EZPopUpMenu(q.pre.win, 200@30, \show, q.pre.names, { |pop| q.pre.pregui.object = NdefPreset(pop.item) });
-q.pre.pregui = NdefPresetGui(nil, 20, q.pre.win.view);
+PH.pre.presetNames = NdefPreset.all.keys(Array).sort;
+PH.pre.popup = EZPopUpMenu(PH.pre.win, 200@30, \show, PH.pre.names, { |pop| PH.pre.pregui.object = NdefPreset(pop.item) });
+PH.pre.pregui = NdefPresetGui(nil, 20, PH.pre.win.view);
 
-q.pre.pregui;
+PH.pre.pregui;

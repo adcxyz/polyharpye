@@ -16,14 +16,12 @@ Butz(\poly).add(\nanoK2, { WinBounds.showOrMake(\nanoK2) });
 WinBounds.addMake(\nanoK2, { MKtl(\nanoK2).gui.showLabels.parent });
 
 
-MKtl(\nanoK2).elAt(\bt, \S, 0).elemDesc;
-
 MKtl(\nanoK2).elAt(\bt, [\S, \M]).flat.do { |el, sceneIndex|
-	el.elemDesc.label = q.scenes.buts[sceneIndex].states[0][0];
+	el.elemDesc.label = PH.scenes.all[sceneIndex].name;
 	el.action = { |el|
 		if (el.isOn) {
 			defer {
-				q.scenes.buts[sceneIndex].valueAction_(1);
+				PH.scenes.buts[sceneIndex].valueAction_(1);
 			};
 		};
 	};
@@ -43,15 +41,22 @@ MKtl(\nanoK2).elAt(\tr).flat.keep(4).do { |el, scaleIndex|
 };
 
 
+// hard volume:
+PH.volSpec = [-90, 6, \db].asSpec;
+MKtl('nanoK2').elAt(\kn, 7).elemDesc.label = "main Vol";
+MKtl('nanoK2').elAt(\kn, 7).action = { |kn|
+	var voldB = PH.volSpec.map(kn.value).round(0.01);
+	"mainVol: % dB\n".postf(voldB);
+	s.volume = voldB;
+};
 
-
+// this only if
 // leave last knob at direct volume control for emergency OFF
 MKtl(\nanoK2).elAt(\kn, 7).elemDesc.label = "VOL";
 MKtl(\nanoK2).elAt(\kn, 7).action = { |el|
 	el.elemDesc.label = "VOL";
 	MainFX(s).set(\mainVol, (el.value * 2).squared)
 };
-
 
 MKtl(\nanoK2).elAt(\tr, \tleft).action = { |bt|
 	if (bt.isOn.not) {
@@ -85,12 +90,12 @@ MKtl(\nanoK2).elAt(\tr, \cycle).action = { |bt|
 	} {
 		"swap 1/8".postln;
 	};
-	q.modScale(numPairs2Swap);
+	PH.modScale(numPairs2Swap);
 };
 
 
 // top 8 sounds to toggle directly:
-q.ndef.groups.top8.do { |ndf, i|
+PH.ndef.groups.top8.do { |ndf, i|
 	var ndefname = ndf.key.asString.drop(3).keep(4);
 	// slider softsets vol and pauses when 0
 	MKtl(\nanoK2).elAt(\sl, i).elemDesc.label = ndefname ++ " vol";
@@ -131,3 +136,25 @@ q.ndef.groups.top8.do { |ndf, i|
 	}
 };
 //
+
+// set input volumes for sources: MTP
+PH.mtpAmp = 1;
+MKtl('nanoK2').elAt(\kn, 5).elemDesc.label = "mtpAmp";
+MKtl('nanoK2').elAt(\kn, 5).action = { |kn|
+	PH.mtpAmp = (kn.value * 2).round(0.0001);
+	"PH.mtpAmp: %\n".postf(PH.mtpAmp);
+};
+
+// mics2 polyResons
+MKtl('nanoK2').elAt(\kn, 6).elemDesc.label = "mics2Pol";
+MKtl('nanoK2').elAt(\kn, 6).action = { |kn|
+	"mics2Poly: %\n".postf(kn.value.squared.ampdb.round(0.1));
+	Ndef('Pa_micIns').setUni(\gain, kn.value);
+};
+
+
+MKtl('nanoK2').elAt(\sl, 7).elemDesc.label = "poly Vol";
+MKtl('nanoK2').elAt(\sl, 7).action = { |el|
+	Ndef(\Pz_grid).vol_(el.value.squared);
+};
+

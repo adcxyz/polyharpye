@@ -3,7 +3,7 @@ name: \ropesPure,
 onNdefs:  [
 	(ndef: Ndef(\Ph_ropesPure),
 		vol: 0.5,
-		netIndex: q.pos.allNets,
+		netIndex: PH.pos.allNets,
 		settings: [\hpfreq, 20]
 	)
 ])

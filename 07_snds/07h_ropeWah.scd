@@ -2,8 +2,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 // wah wah . wah wah //
 (
-Ndef(\Ph_ropeWah).clear.clearHalo.ar(q.numResons);
-Ndef(\Ph_ropeWah).parentGroup_(q.grpList[2]);
+Ndef(\Ph_ropeWah).clear.clearHalo.ar(PH.numResons);
+Ndef(\Ph_ropeWah).parentGroup_(PH.grpList[2]);
 Ndef(\Ph_ropeWah).fadeTime = 2;
 
 Ndef(\Ph_ropeWah).addSpec(\attT, [0, 2, 5]);

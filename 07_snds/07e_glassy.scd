@@ -1,11 +1,11 @@
 /////////// glass harmonica
 (
 Ndef(\Ph_glassy).clear.clearHalo;
-Ndef(\Ph_glassy).ar(q.numResons);
+Ndef(\Ph_glassy).ar(PH.numResons);
 
 MFdef(\ndef_setNet).value(Ndef(\Ph_glassy), 3);
 
-Ndef(\Ph_glassy).parentGroup_(q.grpList[2]);
+Ndef(\Ph_glassy).parentGroup_(PH.grpList[2]);
 Ndef(\Ph_glassy).vol = 0.25;
 Ndef(\Ph_glassy).fadeTime = 5;
 

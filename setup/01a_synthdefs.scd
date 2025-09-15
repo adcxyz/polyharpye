@@ -1,3 +1,5 @@
+// used for tests
+
 // simple drummy mridangam sound
 SynthDef( \mrid, { arg out, freq = (60.midicps), amp = 0.1, panL = -1, decay = 0.1;
 	var amp2 = AmpComp.kr(freq, 260, 0.17) * amp;

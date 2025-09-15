@@ -1,7 +1,7 @@
 
 Ndef(\Ph_ropesPure).clear;
 Ndef(\Ph_ropesPure).clearHalo;
-Ndef(\Ph_ropesPure).ar(q.numResons);
+Ndef(\Ph_ropesPure).ar(PH.numResons);
 
 Ndef(\Ph_ropesPure).vol = 0.25;
 Ndef(\Ph_ropesPure).fadeTime = 5;

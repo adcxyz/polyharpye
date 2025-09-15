@@ -5,6 +5,6 @@ name: \Tabloid,
 onNdefs:  [
 	(ndef: Ndef(\Ph_tabloid),
 		vol: 0.5,
-		netIndex: q.pos.allNets
+		netIndex: PH.pos.allNets
 	)
 ])

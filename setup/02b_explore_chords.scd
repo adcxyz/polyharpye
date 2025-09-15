@@ -30,6 +30,8 @@ Tdef(\chords, {
 )
 */
 
+var q = PH.q;
+
 // set a current chord to explore:
 q.chords.base = 60;
 q.chords.curr = q.chords.chords.gmspiral2;
